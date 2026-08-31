@@ -1,0 +1,1066 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Czekinah Tolentino: copywriter with 7+ years of campaigns, now training as a data engineer. Flip the cat toggle to see both modes.">
+<meta property="og:title" content="Czekinah's Purr-folio">
+<meta property="og:description" content="One life, two render modes: creative writer and data engineer in training.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128049;</text></svg>">
+<title>Czekinah's Purr-folio</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,100,1&family=Baloo+2:wght@400..800&family=JetBrains+Mono:ital,wght@0,400..800;1,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* ============================================================
+   CZEKINAH'S PURR-FOLIO
+   One life, two render modes.
+   writer mode: strawberry milkshake sticker-book
+   data mode:   cyber-cat terminal
+   ============================================================ */
+
+body{
+  /* -------- writer tokens (default) -------- */
+  --bg:#FFFAF0;
+  --bg-soft:#FFEDF6;
+  --bg-alt:#F3ECFF;
+  --card:#FFFFFF;
+  --ink:#43223B;
+  --ink-soft:#82627B;
+  --accent:#FF69B4;
+  --accent-deep:#D81B7F;
+  --on-accent:#FFFFFF;
+  --pop:#FFC61A;
+  --third:#A98BFF;
+  --line:#F2D3E3;
+  --card-shadow:#FFC9E2;
+  --chip-ink:#43223B;
+  --focus:#D81B7F;
+  --font-display:'Fraunces',Georgia,'Times New Roman',serif;
+  --font-body:'Baloo 2','Comic Sans MS','Trebuchet MS',sans-serif;
+  --font-mono:'JetBrains Mono','Courier New',monospace;
+  --r-a:26px 42px 30px 46px;
+  --r-b:40px 26px 44px 30px;
+
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:17px;
+  line-height:1.6;
+  overflow-x:hidden;
+  transition:background-color .45s ease,color .45s ease;
+}
+
+body[data-mode="data"]{
+  /* -------- data tokens -------- */
+  --bg:#0A1120;
+  --bg-soft:#0D1830;
+  --bg-alt:#0B142A;
+  --card:#101B33;
+  --ink:#E9F1FF;
+  --ink-soft:#8FA3C7;
+  --accent:#2BE3DF;
+  --accent-deep:#2BE3DF;
+  --on-accent:#062326;
+  --pop:#5DFF87;
+  --third:#4A82FF;
+  --line:#1D2C4D;
+  --card-shadow:#03282D;
+  --chip-ink:#062326;
+  --focus:#2BE3DF;
+  --font-display:var(--font-mono);
+  --font-body:'IBM Plex Sans','Segoe UI',Arial,sans-serif;
+  --r-a:10px;
+  --r-b:10px;
+}
+
+/* mode gating: writer-only / data-only elements (writer is the no-JS default) */
+body:not([data-mode="data"]) .d-only{display:none !important;}
+body[data-mode="data"] .w-only{display:none !important;}
+
+*{box-sizing:border-box;}
+::selection{background:var(--accent);color:var(--on-accent);}
+a{color:var(--accent-deep);text-decoration-color:var(--pop);text-decoration-thickness:2px;text-underline-offset:3px;}
+body[data-mode="data"] a{text-decoration-color:var(--third);}
+a:hover{text-decoration-color:var(--accent);}
+:is(a,button,input):focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:6px;}
+img,svg{max-width:100%;}
+h1,h2,h3{font-family:var(--font-display);line-height:1.08;text-wrap:balance;margin:0 0 .4em;}
+p{margin:.4em 0 1em;max-width:62ch;}
+button{font-family:inherit;}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+main section{padding:72px 0;}
+
+/* section eyebrow labels */
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:12.5px;margin-bottom:14px;}
+.w-only.eyebrow{background:var(--pop);color:#4A3402;padding:6px 14px;border-radius:999px;transform:rotate(-1.5deg);box-shadow:3px 3px 0 var(--card-shadow);}
+.d-only.eyebrow{font-family:var(--font-mono);color:var(--pop);letter-spacing:.08em;text-transform:none;font-size:13.5px;}
+h2{font-size:clamp(30px,4.4vw,44px);}
+body[data-mode="data"] h2{font-size:clamp(25px,3.6vw,36px);letter-spacing:-.01em;}
+.section-note{color:var(--ink-soft);max-width:56ch;}
+
+/* ============ portal ripple overlay ============ */
+#portal{position:fixed;inset:0;pointer-events:none;z-index:220;clip-path:circle(0px at 50% 50%);opacity:0;}
+
+/* ============ scroll progress cat ============ */
+#trail-track{position:fixed;top:0;left:0;right:0;height:44px;z-index:200;pointer-events:none;}
+#trail-bar{position:absolute;top:0;left:0;height:5px;width:0%;background:linear-gradient(90deg,var(--accent),var(--pop),var(--third));border-radius:0 4px 4px 0;}
+#trail-cat{position:absolute;top:5px;left:0;width:34px;height:26px;transform:translateX(-6px);}
+#trail-bowl{position:absolute;top:9px;right:8px;width:26px;height:18px;}
+#trail-cat .frame2{display:none;}
+#trail-cat.step .frame1{display:none;}
+#trail-cat.step .frame2{display:block;}
+#trail-bowl.party{animation:bowlparty .5s ease 4;}
+@keyframes bowlparty{50%{transform:translateY(-6px) rotate(-8deg);}}
+#trail-heart{position:absolute;top:2px;right:34px;font-size:13px;opacity:0;}
+#trail-heart.pop{animation:heartpop 1.4s ease forwards;}
+@keyframes heartpop{20%{opacity:1;transform:translateY(-8px) scale(1.25);}100%{opacity:0;transform:translateY(-22px) scale(.8);}}
+
+/* ============ the mode toggle ============ */
+#toggle-dock{position:fixed;top:14px;right:16px;z-index:230;display:flex;flex-direction:column;align-items:center;gap:5px;}
+#modeToggle{cursor:pointer;border:3px solid var(--ink);background:var(--card);width:104px;height:52px;border-radius:999px;position:relative;padding:0;box-shadow:4px 4px 0 var(--card-shadow);transition:background .45s ease,border-color .45s ease;}
+body[data-mode="data"] #modeToggle{border-color:var(--accent);box-shadow:0 0 18px rgba(43,227,223,.45);}
+#toggle-knob{position:absolute;top:3px;left:4px;width:40px;height:40px;border-radius:50%;background:var(--bg-soft);display:grid;place-items:center;transition:transform .45s cubic-bezier(.5,1.6,.4,1),background .45s ease;}
+body[data-mode="data"] #toggle-knob{transform:translateX(50px);background:#071A26;}
+#toggle-knob svg{width:30px;height:30px;}
+#modeToggle .rail-ico{position:absolute;top:50%;translate:0 -50%;font-family:var(--font-mono);font-size:11px;font-weight:700;opacity:.55;}
+#modeToggle .rail-w{left:14px;}
+#modeToggle .rail-d{right:13px;}
+#toggle-label{font-family:var(--font-mono);font-size:10.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);background:var(--card);border:1px solid var(--line);padding:2px 10px;border-radius:999px;}
+
+/* ============ hero ============ */
+.hero{padding:118px 0 30px;position:relative;}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:36px;align-items:center;}
+.hero h1{font-size:clamp(46px,7.2vw,86px);margin:0 0 18px;}
+.w-only .hero-hi,.hero-hi.w-only{color:var(--accent-deep);}
+.hero h1 .dot{color:var(--pop);}
+body[data-mode="data"] .hero h1{font-size:clamp(30px,4.9vw,58px);color:var(--accent);text-shadow:0 0 26px rgba(43,227,223,.35);}
+.type-caret{display:inline-block;width:.55em;height:1.02em;background:var(--accent);vertical-align:-0.12em;margin-left:4px;animation:caretblink 1s steps(1) infinite;}
+@keyframes caretblink{50%{opacity:0;}}
+.hero-tag{font-size:clamp(19px,2.3vw,24px);max-width:32ch;font-weight:600;}
+body[data-mode="data"] .hero-tag{font-weight:400;color:var(--ink-soft);font-size:clamp(17px,2vw,21px);}
+.hero-tag .hl{background:linear-gradient(transparent 58%,var(--pop) 58%);padding:0 2px;}
+body[data-mode="data"] .hero-tag .hl{background:none;color:var(--pop);font-family:var(--font-mono);font-size:.94em;}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:14px;margin-top:26px;align-items:center;}
+.btn{display:inline-flex;align-items:center;gap:9px;font-weight:700;font-size:16px;padding:13px 22px;border-radius:999px;border:3px solid var(--ink);background:var(--accent-deep);color:var(--on-accent);cursor:pointer;text-decoration:none;box-shadow:4px 4px 0 var(--ink);transition:transform .15s ease,box-shadow .15s ease;}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink);}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink);}
+.btn.ghost{background:var(--card);color:var(--ink);}
+body[data-mode="data"] .btn{border-color:var(--accent);box-shadow:0 0 16px rgba(43,227,223,.35);border-radius:8px;font-family:var(--font-mono);font-size:14.5px;}
+body[data-mode="data"] .btn:hover{transform:translateY(-2px);box-shadow:0 0 26px rgba(43,227,223,.6);}
+body[data-mode="data"] .btn.ghost{background:transparent;color:var(--accent);}
+.hero-art{position:relative;min-height:280px;}
+.hero-art svg{width:100%;height:auto;display:block;}
+.hero-hint{margin-top:20px;font-size:14px;color:var(--ink-soft);font-family:var(--font-mono);}
+.hero-hint button{background:none;border:none;color:var(--accent-deep);cursor:pointer;font:inherit;font-weight:700;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px;padding:0;}
+
+/* floating hero letters (writer) */
+.float-glyph{animation:floaty 5s ease-in-out infinite;}
+.float-glyph.g2{animation-delay:1.2s;}
+.float-glyph.g3{animation-delay:2.4s;}
+@keyframes floaty{50%{transform:translateY(-10px);}}
+/* LED blink (data) */
+.led{animation:led 1.6s steps(1) infinite;}
+.led.l2{animation-delay:.5s;}
+.led.l3{animation-delay:1s;}
+@keyframes led{50%{opacity:.15;}}
+.rain{font-family:var(--font-mono);font-size:11px;fill:#1E4E52;animation:rainfall 6s linear infinite;}
+.rain.r2{animation-delay:2s;}
+.rain.r3{animation-delay:4s;}
+@keyframes rainfall{from{transform:translateY(-40px);opacity:0;}12%{opacity:.9;}to{transform:translateY(240px);opacity:0;}}
+.tailwag{transform-origin:14% 82%;animation:tailwag 3.4s ease-in-out infinite;}
+@keyframes tailwag{50%{transform:rotate(7deg);}}
+
+/* ============ stats ============ */
+#stats{padding-top:26px;}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+.stat-tile{background:var(--card);border:3px solid var(--ink);border-radius:var(--r-a);padding:20px 20px 16px;box-shadow:6px 6px 0 var(--card-shadow);transform:rotate(-1deg);}
+.stat-tile:nth-child(2n){transform:rotate(1.2deg);border-radius:var(--r-b);}
+.stat-tile .num{font-family:var(--font-display);font-size:clamp(30px,3.6vw,44px);font-weight:800;color:var(--accent-deep);display:block;line-height:1;}
+.stat-tile:nth-child(2) .num{color:var(--third);}
+.stat-tile:nth-child(3) .num{color:#C98A00;}
+.stat-tile .lbl{font-size:14.5px;font-weight:700;color:var(--ink-soft);}
+.sql-card{background:#0D1626;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 0 30px rgba(43,227,223,.12);}
+.sql-head{display:flex;gap:7px;align-items:center;padding:11px 16px;border-bottom:1px solid var(--line);background:#0B1220;}
+.sql-head i{width:11px;height:11px;border-radius:50%;background:#274067;}
+.sql-head i:first-child{background:#FF6B81;}
+.sql-head i:nth-child(2){background:#FFC61A;}
+.sql-head i:nth-child(3){background:#5DFF87;}
+.sql-head span{font-family:var(--font-mono);font-size:12px;color:var(--ink-soft);margin-left:8px;}
+.sql-body{padding:18px 20px 22px;font-family:var(--font-mono);font-size:14.5px;overflow-x:auto;}
+.sql-q{color:var(--ink-soft);margin:0 0 14px;white-space:pre;}
+.sql-q .kw{color:var(--accent);}
+.sql-q .str{color:var(--pop);}
+table.sqlres{border-collapse:collapse;font-variant-numeric:tabular-nums;min-width:520px;}
+table.sqlres th{color:var(--pop);text-align:left;font-weight:600;padding:7px 26px 7px 0;border-bottom:1px solid var(--line);white-space:nowrap;}
+table.sqlres td{padding:8px 26px 8px 0;color:var(--ink);border-bottom:1px dashed #16233F;white-space:nowrap;}
+table.sqlres td.metric{color:var(--accent);font-weight:700;}
+.sql-rows{color:var(--ink-soft);font-size:12.5px;margin-top:12px;}
+
+/* ============ projects ============ */
+#projects{background:var(--bg-soft);border-top:3px dashed var(--line);border-bottom:3px dashed var(--line);}
+body[data-mode="data"] #projects{border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:34px;}
+.proj{position:relative;overflow:hidden;background:var(--card);border:3px solid var(--ink);border-radius:var(--r-b);padding:24px 24px 20px;box-shadow:7px 7px 0 var(--card-shadow);transition:transform .18s ease,box-shadow .18s ease;}
+.proj:nth-child(2n){border-radius:var(--r-a);}
+.proj:hover{transform:translate(-3px,-3px) rotate(-.4deg);box-shadow:11px 11px 0 var(--card-shadow);}
+body[data-mode="data"] .proj{border:1px solid var(--line);box-shadow:none;}
+body[data-mode="data"] .proj:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 0 26px rgba(43,227,223,.25);}
+.proj h3{font-size:22px;margin:0 0 6px;}
+body[data-mode="data"] .proj h3{font-size:17.5px;color:var(--accent);}
+.proj p{font-size:15.5px;color:var(--ink-soft);margin:0 0 14px;}
+.proj .meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+.chip{font-size:12px;font-weight:700;letter-spacing:.04em;padding:4px 11px;border-radius:999px;background:var(--bg-alt);color:var(--ink);border:2px solid var(--ink);}
+.chip.pink{background:var(--accent);color:var(--on-accent);}
+.chip.gold{background:var(--pop);color:#4A3402;}
+body[data-mode="data"] .chip{border:1px solid var(--line);background:#0B1220;color:var(--ink-soft);font-family:var(--font-mono);font-weight:500;border-radius:6px;}
+body[data-mode="data"] .chip.status{color:var(--pop);border-color:#1E4E2C;}
+body[data-mode="data"] .chip.pink{background:#0B1220;color:var(--accent);border-color:#14494B;}
+.proj .card-link{font-weight:700;font-size:14.5px;}
+/* paw swipe on writer cards */
+.paw-swipe{position:absolute;top:-58px;right:-60px;width:96px;height:96px;transform:rotate(24deg);transition:transform .3s cubic-bezier(.5,1.5,.5,1);pointer-events:none;}
+.proj:hover .paw-swipe{transform:rotate(24deg) translate(-52px,58px);}
+/* pipeline overlay on data cards */
+.pipe-overlay{position:absolute;inset:auto 0 0 0;padding:10px 18px 12px;background:linear-gradient(180deg,transparent,rgba(6,16,32,.94) 30%);opacity:0;transform:translateY(12px);transition:opacity .25s ease,transform .25s ease;pointer-events:none;}
+.proj:hover .pipe-overlay{opacity:1;transform:translateY(0);}
+.pipe-overlay svg{display:block;width:100%;height:44px;}
+.pipe-flow{stroke:var(--accent);stroke-width:2;stroke-dasharray:6 7;fill:none;animation:flow 1.1s linear infinite;}
+@keyframes flow{to{stroke-dashoffset:-13;}}
+.pipe-node{fill:#0B1220;stroke:var(--accent);stroke-width:1.6;}
+.pipe-txt{font-family:var(--font-mono);font-size:9.5px;fill:var(--pop);}
+.see-all{margin-top:26px;font-weight:700;}
+</style>
+<style>
+/* ============ skills bento ============ */
+.bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:112px;gap:16px;margin-top:34px;}
+.tile{border-radius:var(--r-a);border:3px solid var(--ink);background:var(--card);padding:16px 18px;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;box-shadow:5px 5px 0 var(--card-shadow);transition:opacity .4s ease,filter .4s ease,transform .15s ease;position:relative;}
+.tile:nth-child(2n){border-radius:var(--r-b);}
+body[data-mode="data"] .tile{border:1px solid var(--line);box-shadow:none;}
+.tile:hover{transform:translateY(-3px);}
+.tile .t-name{font-weight:800;font-size:17px;font-family:var(--font-display);}
+body[data-mode="data"] .tile .t-name{font-size:14.5px;font-weight:700;}
+.tile .t-sub{font-size:12.5px;color:var(--ink-soft);line-height:1.35;}
+.tile .t-ico{position:absolute;top:12px;left:16px;width:26px;height:26px;}
+.tile.bridge{grid-column:span 2;grid-row:span 2;justify-content:center;background:var(--bg-alt);}
+.tile.bridge .t-name{font-size:clamp(19px,2.2vw,25px);line-height:1.25;text-wrap:balance;}
+body[data-mode="data"] .tile.bridge .t-name{font-size:clamp(15px,1.8vw,19px);color:var(--accent);}
+.tile.wide{grid-column:span 2;}
+/* mode dimming: the other life stays visible but sleepy */
+body:not([data-mode="data"]) .tile.t-data{opacity:.38;filter:saturate(.25);}
+body[data-mode="data"] .tile.t-write{opacity:.34;filter:saturate(.2);}
+.tile .zzz{position:absolute;top:10px;right:14px;font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--ink-soft);opacity:0;}
+body:not([data-mode="data"]) .tile.t-data .zzz,body[data-mode="data"] .tile.t-write .zzz{opacity:1;}
+
+/* ============ cat-alytics ============ */
+#catalytics{background:var(--bg-alt);border-top:3px dashed var(--line);border-bottom:3px dashed var(--line);}
+body[data-mode="data"] #catalytics{border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.cata-card{margin-top:30px;background:var(--card);border:3px solid var(--ink);border-radius:var(--r-b);padding:26px;box-shadow:8px 8px 0 var(--card-shadow);display:grid;grid-template-columns:200px 1fr;gap:28px;align-items:center;}
+body[data-mode="data"] .cata-card{border:1px solid var(--line);box-shadow:0 0 30px rgba(43,227,223,.12);}
+.cata-cat{text-align:center;}
+.cata-cat svg{width:150px;height:auto;}
+#cata-kitty.nom{animation:nom .5s ease 2;}
+@keyframes nom{50%{transform:translateY(-8px) rotate(-4deg) scale(1.05);}}
+.feed-btn{margin-top:12px;}
+.treats{font-family:var(--font-mono);font-size:13px;color:var(--ink-soft);margin-top:10px;}
+.bars{display:grid;gap:16px;}
+.bar-row{display:grid;grid-template-columns:170px 1fr 64px;gap:14px;align-items:center;font-size:14.5px;font-weight:700;}
+.bar-row .b-lbl{font-family:var(--font-mono);font-weight:600;font-size:13px;color:var(--ink-soft);}
+.bar-track{height:18px;border-radius:999px;border:2px solid var(--ink);background:var(--bg-soft);overflow:hidden;}
+body[data-mode="data"] .bar-track{border:1px solid var(--line);border-radius:5px;background:#0B1220;}
+.bar-fill{height:100%;width:0;border-radius:inherit;background:repeating-linear-gradient(45deg,var(--accent) 0 12px,var(--pop) 12px 24px);transition:width .8s cubic-bezier(.5,1.4,.4,1);}
+body[data-mode="data"] .bar-fill{background:linear-gradient(90deg,var(--accent),var(--pop));box-shadow:0 0 12px rgba(43,227,223,.5);}
+.bar-row .b-val{font-variant-numeric:tabular-nums;font-family:var(--font-mono);font-size:13.5px;text-align:right;}
+.heart-float{position:fixed;z-index:210;font-size:20px;pointer-events:none;animation:heartrise 1.2s ease-out forwards;}
+@keyframes heartrise{to{transform:translateY(-90px) scale(1.4);opacity:0;}}
+
+/* ============ terminal (data mode) ============ */
+#term-sec .sql-card{max-width:760px;}
+#term-body{min-height:230px;max-height:340px;overflow-y:auto;padding:16px 18px;font-family:var(--font-mono);font-size:14px;line-height:1.65;cursor:text;}
+#term-body .t-out{white-space:pre-wrap;margin:0;}
+#term-body .t-cmd{color:var(--pop);}
+#term-body .t-dir{color:var(--third);}
+#term-body .t-hint{color:var(--ink-soft);}
+.term-line{display:flex;gap:8px;padding:0 18px 16px;font-family:var(--font-mono);font-size:14px;align-items:center;}
+.term-line .ps1{color:var(--accent);white-space:nowrap;}
+#term-in{flex:1;background:none;border:none;color:var(--ink);font:inherit;padding:4px 0;}
+#term-in:focus{outline:none;}
+
+/* ============ about / the plot twist ============ */
+.about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:start;margin-top:8px;}
+.hero-grid > *,.about-grid > *,.proj-grid > *,.bento > *,.cata-card > *{min-width:0;}
+.storybook{font-size:clamp(18px,2vw,21px);line-height:1.75;}
+.storybook .cap{float:left;font-family:var(--font-display);font-weight:800;font-size:4.6em;line-height:.8;padding:6px 10px 0 0;color:var(--accent-deep);}
+.gitlog{font-family:var(--font-mono);font-size:14px;line-height:2.05;overflow-x:auto;white-space:pre;max-width:100%;}
+.gitlog .hash{color:var(--pop);}
+.gitlog .ref{color:var(--third);}
+.gitlog .msg{color:var(--ink);}
+.gitlog .cm{color:var(--ink-soft);}
+.paw-list{list-style:none;padding:0;margin:16px 0 0;display:grid;gap:10px;font-weight:600;}
+.paw-list li{padding-left:34px;position:relative;}
+.paw-list li::before{content:"";position:absolute;left:0;top:2px;width:22px;height:22px;background-repeat:no-repeat;background-size:contain;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='%23FF69B4'%3E%3Cellipse cx='7' cy='7' rx='2.4' ry='3'/%3E%3Cellipse cx='17' cy='7' rx='2.4' ry='3'/%3E%3Cellipse cx='3.4' cy='12' rx='2.1' ry='2.7'/%3E%3Cellipse cx='20.6' cy='12' rx='2.1' ry='2.7'/%3E%3Cpath d='M12 10c3.8 0 6.5 2.6 6.5 5.4 0 2.4-2 3.8-4.1 3.3-1.2-.3-1.7-.3-2.4-.3s-1.2 0-2.4.3c-2.1.5-4.1-.9-4.1-3.3C5.5 12.6 8.2 10 12 10z'/%3E%3C/g%3E%3C/svg%3E");}
+body[data-mode="data"] .paw-list li::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='%232BE3DF'%3E%3Cellipse cx='7' cy='7' rx='2.4' ry='3'/%3E%3Cellipse cx='17' cy='7' rx='2.4' ry='3'/%3E%3Cellipse cx='3.4' cy='12' rx='2.1' ry='2.7'/%3E%3Cellipse cx='20.6' cy='12' rx='2.1' ry='2.7'/%3E%3Cpath d='M12 10c3.8 0 6.5 2.6 6.5 5.4 0 2.4-2 3.8-4.1 3.3-1.2-.3-1.7-.3-2.4-.3s-1.2 0-2.4.3c-2.1.5-4.1-.9-4.1-3.3C5.5 12.6 8.2 10 12 10z'/%3E%3C/g%3E%3C/svg%3E");}
+
+/* ============ footer ============ */
+footer{padding:64px 0 120px;background:var(--bg-soft);border-top:3px solid var(--ink);}
+body[data-mode="data"] footer{border-top:1px solid var(--line);}
+.foot-grid{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:flex-start;}
+.foot-links{display:flex;flex-wrap:wrap;gap:12px;}
+.foot-note{font-size:13.5px;color:var(--ink-soft);font-family:var(--font-mono);margin-top:26px;}
+.paw-steps{letter-spacing:10px;color:var(--accent);font-size:15px;margin-top:6px;}
+
+/* ============ sticker shelf + drops ============ */
+#shelf{position:fixed;left:14px;bottom:14px;z-index:215;background:var(--card);border:3px solid var(--ink);border-radius:18px;box-shadow:5px 5px 0 var(--card-shadow);padding:8px 10px;display:flex;gap:8px;align-items:center;}
+body[data-mode="data"] #shelf{border:1px solid var(--line);box-shadow:0 0 16px rgba(43,227,223,.25);}
+#shelf .shelf-lbl{font-family:var(--font-mono);font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);writing-mode:vertical-rl;rotate:180deg;}
+.sticker{width:38px;height:38px;display:grid;place-items:center;font-size:24px;cursor:grab;user-select:none;border-radius:10px;background:var(--bg-alt);border:2px solid var(--line);touch-action:none;}
+.sticker:active{cursor:grabbing;}
+#shelf.tucked .sticker,#shelf.tucked .shelf-lbl{display:none;}
+#shelf-tuck{border:none;background:none;cursor:pointer;font-size:16px;color:var(--ink-soft);padding:2px 4px;}
+.placed{position:absolute;z-index:60;font-size:30px;cursor:grab;user-select:none;filter:drop-shadow(2px 3px 0 rgba(67,34,59,.25));touch-action:none;}
+.drop-glyph{position:fixed;z-index:205;pointer-events:none;animation:dropfall 1.5s cubic-bezier(.3,0,.6,1) forwards;font-size:22px;}
+@keyframes dropfall{from{transform:translateY(0) rotate(0);opacity:1;}to{transform:translateY(46vh) rotate(190deg);opacity:0;}}
+
+/* ============ custom cursor ============ */
+body.fancy-cursor,body.fancy-cursor a,body.fancy-cursor button,body.fancy-cursor .sticker{cursor:none;}
+#cur{position:fixed;top:0;left:0;z-index:240;pointer-events:none;will-change:transform;}
+#cur .yarn{display:block;}
+#cur .xhair{display:none;}
+body[data-mode="data"] #cur .yarn{display:none;}
+body[data-mode="data"] #cur .xhair{display:block;}
+#cur.hovering .xhair .ring{r:11;}
+#cur.hovering .yarnwrap{transform:scale(1.35);}
+.trail-dot{position:fixed;z-index:239;pointer-events:none;width:8px;height:8px;border-radius:50%;animation:traildot .7s ease-out forwards;}
+body[data-mode="data"] .trail-dot{border-radius:2px;width:6px;height:6px;}
+@keyframes traildot{to{opacity:0;transform:scale(.2) translateY(6px);}}
+
+/* ============ responsive ============ */
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr;}
+  .hero-art{order:-1;min-height:0;max-width:420px;}
+  .stat-grid{grid-template-columns:1fr 1fr;}
+  .proj-grid{grid-template-columns:1fr;}
+  .bento{grid-template-columns:1fr 1fr;grid-auto-rows:104px;}
+  .cata-card{grid-template-columns:1fr;}
+  .about-grid{grid-template-columns:1fr;}
+  .hero{padding-top:96px;}
+  #toggle-dock{top:10px;right:10px;}
+  #modeToggle{width:92px;height:46px;}
+  #toggle-knob{width:36px;height:36px;}
+  body[data-mode="data"] #toggle-knob{transform:translateX(44px);}
+}
+@media (max-width:520px){
+  main section{padding:52px 0;}
+  .stat-grid{grid-template-columns:1fr 1fr;gap:12px;}
+  .bento{gap:10px;}
+  .tile{padding:12px 13px;}
+  .tile .t-ico{top:9px;left:12px;width:20px;height:20px;}
+  .tile .t-name{font-size:14.5px;}
+  body[data-mode="data"] .tile .t-name{font-size:12.5px;}
+  .tile .t-sub{font-size:11px;}
+  .cata-card{padding:18px;}
+  body[data-mode="data"] .hero h1{font-size:clamp(20px,6vw,30px);}
+  .gitlog{font-size:12px;}
+  .bar-row{grid-template-columns:1fr;gap:4px;}
+  .bar-row .b-val{text-align:left;}
+  #shelf{left:8px;bottom:8px;}
+}
+
+/* ============ reduced motion ============ */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01s !important;animation-iteration-count:1 !important;transition-duration:.01s !important;}
+  #portal{display:none !important;}
+  .trail-dot,.drop-glyph{display:none !important;}
+}
+</style>
+<style>
+.yarnwrap{display:block;transition:transform .15s ease;}
+#cur{opacity:0;transition:opacity .2s ease;}
+#cur.on{opacity:1;}
+</style>
+
+</head>
+<body>
+<div id="portal" aria-hidden="true"></div>
+
+<div id="trail-track" aria-hidden="true">
+  <div id="trail-bar"></div>
+  <div id="trail-cat">
+    <svg viewBox="0 0 17 13" shape-rendering="crispEdges" aria-hidden="true">
+      <g fill="var(--accent)">
+        <rect x="0" y="2" width="1" height="1"/><rect x="1" y="3" width="1" height="2"/>
+        <rect x="2" y="4" width="10" height="5"/>
+        <rect x="10" y="1" width="5" height="5"/>
+        <rect x="10" y="0" width="1" height="1"/><rect x="14" y="0" width="1" height="1"/>
+        <g class="frame1">
+          <rect x="3" y="9" width="1" height="2"/><rect x="6" y="9" width="1" height="2"/>
+          <rect x="9" y="9" width="1" height="2"/><rect x="11" y="9" width="1" height="2"/>
+        </g>
+        <g class="frame2">
+          <rect x="2" y="9" width="1" height="2"/><rect x="5" y="9" width="1" height="2"/>
+          <rect x="8" y="9" width="1" height="2"/><rect x="12" y="9" width="1" height="2"/>
+        </g>
+      </g>
+      <rect class="w-only" x="13" y="3" width="1" height="1" fill="#FFFAF0"/>
+      <g class="d-only">
+        <rect x="11" y="3" width="4" height="1" fill="var(--pop)"/>
+        <rect x="12" y="3" width="1" height="1" fill="#062326"/>
+      </g>
+    </svg>
+  </div>
+  <div id="trail-bowl">
+    <svg viewBox="0 0 26 18" aria-hidden="true">
+      <path d="M2 6 h22 l-3 9 a3 3 0 0 1-3 3 H8 a3 3 0 0 1-3-3 Z" fill="var(--accent)"/>
+      <ellipse cx="13" cy="6" rx="11" ry="3" fill="var(--pop)"/>
+    </svg>
+  </div>
+  <span id="trail-heart">&#10084;</span>
+</div>
+
+<div id="toggle-dock">
+  <button id="modeToggle" type="button" aria-pressed="false" aria-label="Switch between creative writer mode and data engineer mode">
+    <span class="rail-ico rail-w" aria-hidden="true">Aa</span>
+    <span class="rail-ico rail-d" aria-hidden="true">&lt;/&gt;</span>
+    <span id="toggle-knob" aria-hidden="true">
+      <svg class="w-only" viewBox="0 0 32 32">
+        <path d="M6 12 L9 4 L14 9 Z" fill="#FF69B4"/><path d="M26 12 L23 4 L18 9 Z" fill="#FF69B4"/>
+        <circle cx="16" cy="17" r="11" fill="#FF69B4"/>
+        <path d="M10.5 16.5 q1.5 2 3 0 M18.5 16.5 q1.5 2 3 0" stroke="#43223B" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <path d="M14.8 20.4 q1.2 1.4 2.4 0" stroke="#43223B" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+        <path d="M24 26 L29 21" stroke="#C98A00" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M23 27 l2.2-.6 -1.6-1.6 Z" fill="#FFC61A"/>
+      </svg>
+      <svg class="d-only" viewBox="0 0 32 32">
+        <path d="M6 12 L9 4 L14 9 Z" fill="#12233F"/><path d="M26 12 L23 4 L18 9 Z" fill="#12233F"/>
+        <circle cx="16" cy="17" r="11" fill="#12233F"/>
+        <rect x="6" y="13" width="20" height="6" rx="3" fill="#5DFF87"/>
+        <circle cx="11.5" cy="16" r="2.6" fill="#062326"/><circle cx="20.5" cy="16" r="2.6" fill="#062326"/>
+        <circle cx="12.3" cy="15.3" r=".9" fill="#2BE3DF"/><circle cx="21.3" cy="15.3" r=".9" fill="#2BE3DF"/>
+      </svg>
+    </span>
+  </button>
+  <span id="toggle-label">creative</span>
+</div>
+
+<header class="hero wrap">
+  <div class="hero-grid">
+    <div>
+      <span class="eyebrow w-only">the purr-folio of Czekinah Tolentino</span>
+      <span class="eyebrow d-only">~/czekinah/purr-folio $ whoami</span>
+
+      <h1 class="w-only">Czekinah writes<span class="dot">.</span></h1>
+      <h1 class="d-only" aria-label="SELECT * FROM czekinah;"><span id="typed">SELECT * FROM czekinah;</span><span class="type-caret" aria-hidden="true"></span></h1>
+
+      <p class="hero-tag w-only">Copy that sticks to your brain like <span class="hl">cat hair on a black sweater</span>. Seven years of campaigns for brands all over the Philippines.</p>
+      <p class="hero-tag d-only">Data engineer in training. Learning to build pipelines as <span class="hl">agile as a hunting tabby</span>, with seven years of messy real-world inputs behind me.</p>
+
+      <div class="hero-ctas">
+        <a class="btn" href="#projects"><span class="w-only">See the work</span><span class="d-only">./view_projects</span></a>
+        <a class="btn ghost w-only" href="https://www.behance.net/czekinah" target="_blank" rel="noopener">Behance</a>
+        <a class="btn ghost d-only" href="https://github.com/czekinah" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <p class="hero-hint">
+        <span class="w-only">psst. I also speak SQL. <button type="button" class="flipper">meet the data engineer</button></span>
+        <span class="d-only">// warning: author may spontaneously produce poetry. <button type="button" class="flipper">meet the writer</button></span>
+      </p>
+    </div>
+
+    <div class="hero-art">
+      <svg class="w-only" viewBox="0 0 420 320" role="img" aria-label="A pink cat lounging on a pile of colorful books">
+        <ellipse cx="210" cy="292" rx="185" ry="16" fill="#F3ECFF"/>
+        <g transform="rotate(-1 210 259)"><rect x="62" y="240" width="298" height="38" rx="9" fill="#A98BFF" stroke="#43223B" stroke-width="4"/><rect x="84" y="252" width="70" height="12" rx="6" fill="#FFFAF0"/></g>
+        <g transform="rotate(1 210 223)"><rect x="84" y="204" width="256" height="38" rx="9" fill="#FFC61A" stroke="#43223B" stroke-width="4"/><rect x="270" y="216" width="52" height="12" rx="6" fill="#FFFAF0"/></g>
+        <rect x="98" y="168" width="228" height="38" rx="9" fill="#FF69B4" stroke="#43223B" stroke-width="4"/>
+        <path class="tailwag" d="M118 176 C 96 176 84 200 96 220 C 104 233 122 233 128 222" fill="none" stroke="#FFB1D8" stroke-width="13" stroke-linecap="round"/>
+        <ellipse cx="212" cy="140" rx="86" ry="40" fill="#FFE1EE" stroke="#43223B" stroke-width="4"/>
+        <ellipse cx="163" cy="170" rx="16" ry="9" fill="#FFE1EE" stroke="#43223B" stroke-width="3.4"/>
+        <ellipse cx="205" cy="174" rx="16" ry="9" fill="#FFE1EE" stroke="#43223B" stroke-width="3.4"/>
+        <circle cx="283" cy="118" r="36" fill="#FFE1EE" stroke="#43223B" stroke-width="4"/>
+        <path d="M256 96 L250 66 L276 82 Z" fill="#FFE1EE" stroke="#43223B" stroke-width="4" stroke-linejoin="round"/>
+        <path d="M310 96 L316 66 L290 82 Z" fill="#FFE1EE" stroke="#43223B" stroke-width="4" stroke-linejoin="round"/>
+        <path d="M257 78 L261 70 L268 77 Z" fill="#FF69B4"/><path d="M309 78 L305 70 L298 77 Z" fill="#FF69B4"/>
+        <path d="M266 116 q4 5 8 0" stroke="#43223B" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M292 116 q4 5 8 0" stroke="#43223B" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M279 126 l4 3 4-3" stroke="#43223B" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="262" cy="127" r="4.5" fill="#FFB1D8"/><circle cx="304" cy="127" r="4.5" fill="#FFB1D8"/>
+        <path d="M246 120 L228 116 M246 126 L229 128 M320 120 L338 116 M320 126 L337 128" stroke="#43223B" stroke-width="2.4" stroke-linecap="round"/>
+        <g class="float-glyph"><text x="96" y="120" font-family="Fraunces,Georgia,serif" font-style="italic" font-weight="700" font-size="42" fill="#D81B7F">a</text></g>
+        <g class="float-glyph g2"><text x="140" y="84" font-family="Fraunces,Georgia,serif" font-style="italic" font-weight="700" font-size="30" fill="#A98BFF">&amp;</text></g>
+        <g class="float-glyph g3"><text x="66" y="180" font-family="Fraunces,Georgia,serif" font-style="italic" font-weight="700" font-size="26" fill="#C98A00">?</text></g>
+        <g class="float-glyph g2" fill="#FFC61A"><path d="M348 60 l4 10 10 4 -10 4 -4 10 -4-10 -10-4 10-4 Z"/></g>
+        <g class="float-glyph" fill="#FF69B4"><path d="M368 150 l3 7 7 3 -7 3 -3 7 -3-7 -7-3 7-3 Z"/></g>
+      </svg>
+
+      <svg class="d-only" viewBox="0 0 420 320" role="img" aria-label="A black cat wearing teal goggles sitting on a glowing server rack">
+        <text class="rain" x="52" y="0"><tspan x="52" dy="14">1</tspan><tspan x="52" dy="14">0</tspan><tspan x="52" dy="14">1</tspan><tspan x="52" dy="14">1</tspan><tspan x="52" dy="14">0</tspan></text>
+        <text class="rain r2" x="330" y="0"><tspan x="330" dy="14">0</tspan><tspan x="330" dy="14">1</tspan><tspan x="330" dy="14">0</tspan><tspan x="330" dy="14">0</tspan><tspan x="330" dy="14">1</tspan></text>
+        <text class="rain r3" x="382" y="0"><tspan x="382" dy="14">1</tspan><tspan x="382" dy="14">1</tspan><tspan x="382" dy="14">0</tspan><tspan x="382" dy="14">1</tspan><tspan x="382" dy="14">0</tspan></text>
+        <ellipse cx="210" cy="298" rx="175" ry="12" fill="#0D1830"/>
+        <rect x="122" y="128" width="176" height="168" rx="10" fill="#101B33" stroke="#2BE3DF" stroke-width="2"/>
+        <g stroke="#1D2C4D" stroke-width="2">
+          <line x1="122" y1="184" x2="298" y2="184"/><line x1="122" y1="240" x2="298" y2="240"/>
+        </g>
+        <g>
+          <g transform="translate(0,0)">
+            <rect x="138" y="146" width="66" height="8" rx="4" fill="#0B1220"/><rect x="138" y="160" width="46" height="8" rx="4" fill="#0B1220"/>
+            <circle class="led" cx="262" cy="156" r="5" fill="#2BE3DF"/><circle class="led l2" cx="280" cy="156" r="5" fill="#5DFF87"/>
+          </g>
+          <g transform="translate(0,56)">
+            <rect x="138" y="146" width="66" height="8" rx="4" fill="#0B1220"/><rect x="138" y="160" width="46" height="8" rx="4" fill="#0B1220"/>
+            <circle class="led l3" cx="262" cy="156" r="5" fill="#5DFF87"/><circle class="led" cx="280" cy="156" r="5" fill="#2BE3DF"/>
+          </g>
+          <g transform="translate(0,112)">
+            <rect x="138" y="146" width="66" height="8" rx="4" fill="#0B1220"/><rect x="138" y="160" width="46" height="8" rx="4" fill="#0B1220"/>
+            <circle class="led l2" cx="262" cy="156" r="5" fill="#2BE3DF"/><circle class="led l3" cx="280" cy="156" r="5" fill="#4A82FF"/>
+          </g>
+        </g>
+        <path class="tailwag" d="M287 122 C 306 140 306 176 292 196 C 284 208 270 206 266 196" fill="none" stroke="#060B16" stroke-width="12" stroke-linecap="round"/>
+        <path class="tailwag" d="M287 122 C 306 140 306 176 292 196 C 284 208 270 206 266 196" fill="none" stroke="#2BE3DF" stroke-width="2" stroke-linecap="round" opacity=".8"/>
+        <path d="M175 128 C 172 96 186 78 210 74 C 236 70 254 88 254 112 L 256 128 Z" fill="#060B16" stroke="#2BE3DF" stroke-width="2"/>
+        <circle cx="213" cy="58" r="27" fill="#060B16" stroke="#2BE3DF" stroke-width="2"/>
+        <path d="M192 42 L188 18 L206 32 Z" fill="#060B16" stroke="#2BE3DF" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M234 42 L238 18 L220 32 Z" fill="#060B16" stroke="#2BE3DF" stroke-width="2" stroke-linejoin="round"/>
+        <rect x="190" y="50" width="46" height="13" rx="6.5" fill="#5DFF87"/>
+        <circle cx="203" cy="56.5" r="5.6" fill="#062326"/><circle cx="223" cy="56.5" r="5.6" fill="#062326"/>
+        <circle cx="204.6" cy="55" r="1.8" fill="#2BE3DF"/><circle cx="224.6" cy="55" r="1.8" fill="#2BE3DF"/>
+        <path d="M209 68 l4 3 4-3" stroke="#2BE3DF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <ellipse cx="196" cy="126" rx="11" ry="6" fill="#060B16" stroke="#2BE3DF" stroke-width="1.6"/>
+        <ellipse cx="228" cy="126" rx="11" ry="6" fill="#060B16" stroke="#2BE3DF" stroke-width="1.6"/>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<main>
+<section id="stats" class="wrap" aria-label="Career highlights">
+  <span class="eyebrow w-only">the receipts</span>
+  <span class="eyebrow d-only">-- same numbers, different renderer</span>
+  <h2 class="w-only">Words that moved numbers</h2>
+  <h2 class="d-only">writer_era.sql</h2>
+
+  <div class="stat-grid w-only">
+    <div class="stat-tile"><span class="num">291%</span><span class="lbl">sales growth on my best campaign</span></div>
+    <div class="stat-tile"><span class="num">884%</span><span class="lbl">reach vs. KPI</span></div>
+    <div class="stat-tile"><span class="num">#1</span><span class="lbl">Google rankings from search copy</span></div>
+    <div class="stat-tile"><span class="num">7+</span><span class="lbl">years across agencies and B2B SaaS</span></div>
+  </div>
+
+  <div class="sql-card d-only">
+    <div class="sql-head"><i></i><i></i><i></i><span>czekinah=# psql</span></div>
+    <div class="sql-body">
+<pre class="sql-q"><span class="kw">SELECT</span> metric, value
+<span class="kw">FROM</span> writer_era
+<span class="kw">WHERE</span> brag = <span class="str">TRUE</span>;</pre>
+      <table class="sqlres">
+        <thead><tr><th>metric</th><th>value</th><th>note</th></tr></thead>
+        <tbody>
+          <tr><td>campaign_sales_growth</td><td class="metric">+291%</td><td>best campaign</td></tr>
+          <tr><td>reach_vs_kpi</td><td class="metric">884%</td><td>overdelivered</td></tr>
+          <tr><td>google_ranking</td><td class="metric">#1</td><td>search ad copy</td></tr>
+          <tr><td>years_in_advertising</td><td class="metric">7+</td><td>agencies + B2B SaaS</td></tr>
+        </tbody>
+      </table>
+      <p class="sql-rows">(4 rows) &nbsp;-- proof that I have been optimizing for metrics all along</p>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <span class="eyebrow w-only">chapter one: the portfolio</span>
+    <span class="eyebrow d-only">$ cat projects.txt</span>
+    <h2 class="w-only">Campaigns with claws</h2>
+    <h2 class="d-only">pipelines/ (under construction, loudly)</h2>
+    <p class="section-note w-only">Real campaigns for real shelves: pharma, wellness, and household names across the Philippines.</p>
+    <p class="section-note d-only">Training builds from AWS re/Start and FTW Foundation. Statuses are honest. The ambition is not.</p>
+
+    <div class="proj-grid w-only">
+      <article class="proj">
+        <svg class="paw-swipe" viewBox="0 0 96 96" aria-hidden="true"><g fill="#FF69B4" stroke="#43223B" stroke-width="3"><ellipse cx="30" cy="22" rx="9" ry="12"/><ellipse cx="56" cy="16" rx="9" ry="12"/><ellipse cx="78" cy="26" rx="8" ry="11"/><path d="M28 52 C 30 36 72 30 82 46 C 92 62 78 78 58 74 C 40 70 26 68 28 52 Z"/></g></svg>
+        <h3>Biogesic: Project Dual Ribbons</h3>
+        <p>National campaign work with John Lloyd Cruz for the Philippines' most trusted paracetamol brand. Warm, human, everywhere.</p>
+        <div class="meta"><span class="chip pink">Advertising</span><span class="chip">Campaign copy</span><a class="card-link" href="https://www.behance.net/czekinah" target="_blank" rel="noopener">View on Behance</a></div>
+      </article>
+      <article class="proj">
+        <svg class="paw-swipe" viewBox="0 0 96 96" aria-hidden="true"><g fill="#A98BFF" stroke="#43223B" stroke-width="3"><ellipse cx="30" cy="22" rx="9" ry="12"/><ellipse cx="56" cy="16" rx="9" ry="12"/><ellipse cx="78" cy="26" rx="8" ry="11"/><path d="M28 52 C 30 36 72 30 82 46 C 92 62 78 78 58 74 C 40 70 26 68 28 52 Z"/></g></svg>
+        <h3>Neozep: Passionserye</h3>
+        <p>Serye-style campaign content with Anne Curtis. Kilig plus sniffles, written to binge like a teleserye.</p>
+        <div class="meta"><span class="chip pink">Social</span><span class="chip">Storytelling</span><a class="card-link" href="https://www.behance.net/czekinah" target="_blank" rel="noopener">View on Behance</a></div>
+      </article>
+      <article class="proj">
+        <svg class="paw-swipe" viewBox="0 0 96 96" aria-hidden="true"><g fill="#FFC61A" stroke="#43223B" stroke-width="3"><ellipse cx="30" cy="22" rx="9" ry="12"/><ellipse cx="56" cy="16" rx="9" ry="12"/><ellipse cx="78" cy="26" rx="8" ry="11"/><path d="M28 52 C 30 36 72 30 82 46 C 92 62 78 78 58 74 C 40 70 26 68 28 52 Z"/></g></svg>
+        <h3>Pharex B-Complex: Anti-Ngalay</h3>
+        <p>Taking everyday ngalay and turning it into a campaign idea Filipinos instantly recognized as their own.</p>
+        <div class="meta"><span class="chip pink">Advertising</span><span class="chip gold">Concept</span><a class="card-link" href="https://www.behance.net/czekinah" target="_blank" rel="noopener">View on Behance</a></div>
+      </article>
+      <article class="proj">
+        <svg class="paw-swipe" viewBox="0 0 96 96" aria-hidden="true"><g fill="#FF69B4" stroke="#43223B" stroke-width="3"><ellipse cx="30" cy="22" rx="9" ry="12"/><ellipse cx="56" cy="16" rx="9" ry="12"/><ellipse cx="78" cy="26" rx="8" ry="11"/><path d="M28 52 C 30 36 72 30 82 46 C 92 62 78 78 58 74 C 40 70 26 68 28 52 Z"/></g></svg>
+        <h3>Search Ads That Rank</h3>
+        <p>SEO and search ad copy tuned line by line until Google agreed: number one rankings for client keywords.</p>
+        <div class="meta"><span class="chip pink">SEO</span><span class="chip">Performance</span><a class="card-link" href="https://www.behance.net/czekinah" target="_blank" rel="noopener">View on Behance</a></div>
+      </article>
+    </div>
+    <p class="see-all w-only">Plus Ricola, Orocan, Unilab work and more: <a href="https://www.behance.net/czekinah" target="_blank" rel="noopener">all 12 projects live on Behance</a>.</p>
+
+    <div class="proj-grid d-only">
+      <article class="proj">
+        <h3>herding_the_data/</h3>
+        <p>An end-to-end ETL pipeline for cat shelter insights. Raw CSVs in, clean warehouse tables out, adoption trends surfaced.</p>
+        <div class="meta"><span class="chip status">[BUILDING]</span><span class="chip">Python</span><span class="chip">pandas</span><span class="chip">SQL</span></div>
+        <div class="pipe-overlay"><svg viewBox="0 0 320 44"><path class="pipe-flow" d="M58 22 H 128 M 192 22 H 262"/><rect class="pipe-node" x="10" y="8" width="52" height="28" rx="6"/><rect class="pipe-node" x="132" y="8" width="60" height="28" rx="6"/><rect class="pipe-node" x="258" y="8" width="52" height="28" rx="6"/><text class="pipe-txt" x="18" y="26">extract</text><text class="pipe-txt" x="136" y="26">transform</text><text class="pipe-txt" x="272" y="26">load</text></svg></div>
+      </article>
+      <article class="proj">
+        <h3>campaign_metrics_warehouse/</h3>
+        <p>Seven years of ad campaign results remodeled as a star schema. My own portfolio numbers as the first dataset.</p>
+        <div class="meta"><span class="chip status">[DESIGNING]</span><span class="chip">SQL</span><span class="chip">data modeling</span></div>
+        <div class="pipe-overlay"><svg viewBox="0 0 320 44"><path class="pipe-flow" d="M58 22 H 128 M 192 22 H 262"/><rect class="pipe-node" x="10" y="8" width="52" height="28" rx="6"/><rect class="pipe-node" x="132" y="8" width="60" height="28" rx="6"/><rect class="pipe-node" x="258" y="8" width="52" height="28" rx="6"/><text class="pipe-txt" x="20" y="26">facts</text><text class="pipe-txt" x="140" y="26">dims</text><text class="pipe-txt" x="270" y="26">marts</text></svg></div>
+      </article>
+      <article class="proj">
+        <h3>sql_scratching_post/</h3>
+        <p>A running log of query practice from DataCamp and drills. One scratch a day keeps the rust away.</p>
+        <div class="meta"><span class="chip status">[DAILY]</span><span class="chip">SQL</span><span class="chip">DataCamp</span></div>
+        <div class="pipe-overlay"><svg viewBox="0 0 320 44"><path class="pipe-flow" d="M58 22 H 128 M 192 22 H 262"/><rect class="pipe-node" x="10" y="8" width="52" height="28" rx="6"/><rect class="pipe-node" x="132" y="8" width="60" height="28" rx="6"/><rect class="pipe-node" x="258" y="8" width="52" height="28" rx="6"/><text class="pipe-txt" x="18" y="26">select</text><text class="pipe-txt" x="140" y="26">join</text><text class="pipe-txt" x="264" y="26">window</text></svg></div>
+      </article>
+      <article class="proj">
+        <h3>github.com/czekinah</h3>
+        <p>Fresh install, August 2026. New repo smell. First public commits landing soon; watch this space.</p>
+        <div class="meta"><span class="chip status">[FRESH INSTALL]</span><span class="chip">Git</span><a class="card-link" href="https://github.com/czekinah" target="_blank" rel="noopener">Follow along</a></div>
+        <div class="pipe-overlay"><svg viewBox="0 0 320 44"><path class="pipe-flow" d="M58 22 H 128 M 192 22 H 262"/><rect class="pipe-node" x="10" y="8" width="52" height="28" rx="6"/><rect class="pipe-node" x="132" y="8" width="60" height="28" rx="6"/><rect class="pipe-node" x="258" y="8" width="52" height="28" rx="6"/><text class="pipe-txt" x="22" y="26">init</text><text class="pipe-txt" x="136" y="26">commit</text><text class="pipe-txt" x="270" y="26">push</text></svg></div>
+      </article>
+    </div>
+  </div>
+</section>
+<section id="skills" class="wrap">
+  <span class="eyebrow w-only">the toolbox</span>
+  <span class="eyebrow d-only">$ ls skills/ --sort=passion</span>
+  <h2 class="w-only">Wordcraft &amp; data stacks</h2>
+  <h2 class="d-only">skills/ (hybrid build)</h2>
+  <p class="section-note"><span class="w-only">Flip the switch up top and watch half of these wake up.</span><span class="d-only">// the dimmed tiles are not gone. they are napping.</span></p>
+
+  <div class="bento">
+    <div class="tile bridge">
+      <span class="t-name w-only">"I built structures for stories for seven years. Rows and columns are just stricter paragraphs."</span>
+      <span class="t-name d-only">// writers make good engineers: we have been normalizing messy inputs into clean, consistent outputs all along</span>
+      <span class="t-sub">the bridge, in one line</span>
+    </div>
+    <div class="tile t-write">
+      <svg class="t-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20 L7 12 L17 2 L22 7 L12 17 Z" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linejoin="round"/><path d="M4 20 l3.4-1.2 -2.2-2.2 Z" fill="var(--accent)"/></svg>
+      <span class="zzz" aria-hidden="true">zzz</span>
+      <span class="t-name">Copywriting</span><span class="t-sub">TVC, social, print, scripts</span>
+    </div>
+    <div class="tile t-data">
+      <svg class="t-ico" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3" fill="none" stroke="var(--accent)" stroke-width="2.2"/><path d="M4 5 v14 c0 1.7 3.6 3 8 3 s8-1.3 8-3 V5 M4 12 c0 1.7 3.6 3 8 3 s8-1.3 8-3" fill="none" stroke="var(--accent)" stroke-width="2.2"/></svg>
+      <span class="zzz" aria-hidden="true">zzz</span>
+      <span class="t-name">SQL</span><span class="t-sub">joins, windows, modeling drills</span>
+    </div>
+    <div class="tile t-write">
+      <svg class="t-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10 L14 4 V20 L3 14 Z" fill="none" stroke="var(--third)" stroke-width="2.2" stroke-linejoin="round"/><path d="M16 8 c3 1.4 3 6.6 0 8 M14 20 v2" stroke="var(--third)" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>
+      <span class="zzz" aria-hidden="true">zzz</span>
+      <span class="t-name">Brand voice</span><span class="t-sub">finding it, then keeping it</span>
+    </div>
+    <div class="tile t-data">
+      <svg class="t-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5 L3 12 L8 19 M16 5 l5 7 -5 7" fill="none" stroke="var(--third)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="zzz" aria-hidden="true">zzz</span>
+      <span class="t-name">Python</span><span class="t-sub">pandas, scripts, small tools</span>
+    </div>
+    <div class="tile t-write">
+      <svg class="t-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="#C98A00" stroke-width="2.4"/><path d="M15 15 L21 21" stroke="#C98A00" stroke-width="2.6" stroke-linecap="round"/></svg>
+      <span class="zzz" aria-hidden="true">zzz</span>
+      <span class="t-name">SEO &amp; search</span><span class="t-sub">copy that ranks, ads that click</span>
+    </div>
+    <div class="tile t-data">
+      <svg class="t-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18 a5 5 0 1 1 1-9.9 A6 6 0 0 1 19.5 10 A4 4 0 0 1 18 18 Z" fill="none" stroke="var(--pop)" stroke-width="2.2" stroke-linejoin="round"/></svg>
+      <span class="zzz" aria-hidden="true">zzz</span>
+      <span class="t-name">AWS Cloud</span><span class="t-sub">re/Start trainee, hands on</span>
+    </div>
+    <div class="tile t-write">
+      <svg class="t-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2.5" fill="none" stroke="var(--accent)" stroke-width="2.2"/><path d="M8 8 h8 M8 12 h8 M8 16 h5" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/></svg>
+      <span class="zzz" aria-hidden="true">zzz</span>
+      <span class="t-name">Content strategy</span><span class="t-sub">calendars, series, funnels</span>
+    </div>
+    <div class="tile t-data">
+      <svg class="t-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="8" width="6" height="8" rx="2" fill="none" stroke="var(--pop)" stroke-width="2.2"/><rect x="16" y="8" width="6" height="8" rx="2" fill="none" stroke="var(--pop)" stroke-width="2.2"/><path d="M8 12 h8" stroke="var(--pop)" stroke-width="2.2" stroke-dasharray="3 3"/></svg>
+      <span class="zzz" aria-hidden="true">zzz</span>
+      <span class="t-name">ETL thinking</span><span class="t-sub">extract, transform, load, repeat</span>
+    </div>
+  </div>
+</section>
+
+<section id="catalytics">
+  <div class="wrap">
+    <span class="eyebrow w-only">live from my desk</span>
+    <span class="eyebrow d-only">$ tail -f cat_metrics.log</span>
+    <h2 class="w-only">Cat-alytics</h2>
+    <h2 class="d-only">cat_alytics --live</h2>
+    <p class="section-note"><span class="w-only">A very serious dashboard of very serious numbers. Feed the cat to see the metrics respond.</span><span class="d-only">// interactive demo: user events update state, state re-renders the bars. that is the whole job, basically.</span></p>
+
+    <div class="cata-card">
+      <div class="cata-cat">
+        <svg id="cata-kitty" viewBox="0 0 150 130" role="img" aria-label="A round cat next to its food bowl">
+          <ellipse cx="75" cy="122" rx="60" ry="6" fill="var(--bg-soft)"/>
+          <ellipse cx="70" cy="92" rx="42" ry="30" fill="var(--bg-alt)" stroke="var(--ink)" stroke-width="3.4"/>
+          <circle cx="72" cy="52" r="30" fill="var(--bg-alt)" stroke="var(--ink)" stroke-width="3.4"/>
+          <path d="M50 34 L45 12 L64 24 Z" fill="var(--bg-alt)" stroke="var(--ink)" stroke-width="3.4" stroke-linejoin="round"/>
+          <path d="M94 34 L99 12 L80 24 Z" fill="var(--bg-alt)" stroke="var(--ink)" stroke-width="3.4" stroke-linejoin="round"/>
+          <path d="M52 30 l3-8 6 6 Z" fill="var(--accent)"/><path d="M92 30 l-3-8 -6 6 Z" fill="var(--accent)"/>
+          <g class="w-only"><circle cx="62" cy="50" r="3.4" fill="var(--ink)"/><circle cx="84" cy="50" r="3.4" fill="var(--ink)"/></g>
+          <g class="d-only"><rect x="50" y="44" width="44" height="11" rx="5.5" fill="#5DFF87"/><circle cx="62" cy="49.5" r="4.6" fill="#062326"/><circle cx="84" cy="49.5" r="4.6" fill="#062326"/></g>
+          <path d="M69 58 l4 3 4-3" stroke="var(--ink)" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M46 52 L32 49 M46 57 L33 60 M98 52 L112 49 M98 57 L111 60" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/>
+          <path class="tailwag" d="M108 100 C 124 96 130 82 122 70" fill="none" stroke="var(--accent)" stroke-width="9" stroke-linecap="round"/>
+          <path d="M116 112 h24 l-3 8 a3 3 0 0 1-3 3 h-12 a3 3 0 0 1-3-8 Z" fill="var(--accent)" stroke="var(--ink)" stroke-width="2.6"/>
+        </svg>
+        <div><button class="btn feed-btn" id="feedBtn" type="button"><span class="w-only">Feed the cat</span><span class="d-only">./feed_cat.sh</span></button></div>
+        <p class="treats">treats served: <span id="treatCount">0</span></p>
+      </div>
+      <div class="bars">
+        <div class="bar-row"><span class="b-lbl">coffee_today</span><div class="bar-track"><div class="bar-fill" data-w="62"></div></div><span class="b-val">3.5 cups</span></div>
+        <div class="bar-row"><span class="b-lbl">words_written</span><div class="bar-track"><div class="bar-fill" data-w="81"></div></div><span class="b-val">2,400</span></div>
+        <div class="bar-row"><span class="b-lbl">queries_run</span><div class="bar-track"><div class="bar-fill" data-w="38"></div></div><span class="b-val">17</span></div>
+        <div class="bar-row"><span class="b-lbl">purr_level</span><div class="bar-track"><div class="bar-fill" id="purrBar" data-w="58"></div></div><span class="b-val" id="purrVal">58%</span></div>
+        <div class="bar-row"><span class="b-lbl">cats_petted</span><div class="bar-track"><div class="bar-fill" data-w="100"></div></div><span class="b-val">&#8734;</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="term-sec" class="d-only wrap">
+  <span class="eyebrow d-only">$ ssh recruiter@purrfolio</span>
+  <h2 class="d-only">Try the terminal</h2>
+  <p class="section-note">A tiny shell for the curious. Type <strong>help</strong> to see what it knows.</p>
+  <div class="sql-card">
+    <div class="sql-head"><i></i><i></i><i></i><span>czekinah@purrfolio: ~</span></div>
+    <div id="term-body" aria-live="polite">
+      <p class="t-out t-hint">welcome to purrfolio-sh v1.0 (meow-stable)</p>
+      <p class="t-out t-hint">type <span class="t-cmd">help</span> and press enter</p>
+    </div>
+    <div class="term-line">
+      <span class="ps1">czekinah@purrfolio:~$</span>
+      <input id="term-in" type="text" autocomplete="off" spellcheck="false" aria-label="Terminal input. Type help and press enter.">
+    </div>
+  </div>
+</section>
+
+<section id="about" class="wrap">
+  <span class="eyebrow w-only">the plot twist</span>
+  <span class="eyebrow d-only">$ git log careers/czekinah</span>
+  <h2 class="w-only">From paragraphs to pipelines</h2>
+  <h2 class="d-only">schema migration in progress</h2>
+
+  <div class="about-grid">
+    <div>
+      <p class="storybook w-only"><span class="cap">O</span>nce upon a deadline, a copywriter spent seven years making brands sound human: pharma, wellness, household names, B2B SaaS. Along the way she noticed that every great campaign is secretly a system. Audiences, angles, versions, results. She started asking where all the numbers lived, followed them down the funnel into the databases, and liked it there. Now she is training as a data engineer while keeping the writing sharp. Same curiosity. Stricter syntax.</p>
+      <div class="d-only">
+        <p class="section-note">// the career switch, rendered as a commit history</p>
+        <div class="gitlog"><span class="cm">$ git log --oneline careers/czekinah</span>
+<span class="hash">f00dcat</span> <span class="ref">(HEAD -&gt; data-engineering)</span> <span class="msg">feat: enroll in AWS re/Start + FTW Foundation</span>
+<span class="hash">ac1dbee</span> <span class="msg">learn: DataCamp certifications in progress</span>
+<span class="hash">c0ffee7</span> <span class="msg">refactor: campaigns/ -&gt; pipelines/ (breaking change, worth it)</span>
+<span class="hash">b1gp1v0</span> <span class="msg">fix: stop calling it a career change, call it a schema migration</span>
+<span class="hash">7yrs4go</span> <span class="msg">init: seven years of agency + B2B SaaS copywriting</span></div>
+      </div>
+    </div>
+    <div>
+      <h3><span class="w-only">Currently</span><span class="d-only">status --now</span></h3>
+      <ul class="paw-list">
+        <li>Training with AWS re/Start and FTW Foundation</li>
+        <li>Stacking DataCamp certifications, one badge at a time</li>
+        <li>Still writing: campaigns, funnels, and the occasional zine-worthy essay</li>
+        <li>Based in the Philippines, open to freelance and full-time</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h2 class="w-only" style="font-size:clamp(28px,3.6vw,40px);">Let's make something with claws.</h2>
+        <h2 class="d-only" style="font-size:clamp(22px,3vw,32px);">./say_hi --channel=any</h2>
+        <p class="section-note"><span class="w-only">For campaigns, content, or a chat about the writer-to-data plot twist.</span><span class="d-only">// recruiter-friendly. cat-approved. responds faster than a cold pipeline.</span></p>
+      </div>
+      <div class="foot-links">
+        <a class="btn" href="https://www.linkedin.com/in/czekinah/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn ghost" href="https://www.behance.net/czekinah" target="_blank" rel="noopener">Behance</a>
+        <a class="btn ghost" href="https://github.com/czekinah" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+    <p class="foot-note"><span class="w-only">Czekinah Tolentino. One life, two render modes. Powered by strawberry milkshake.</span><span class="d-only">Czekinah Tolentino // one life, two render modes // uptime: 7 years and counting</span></p>
+    <div class="paw-steps" aria-hidden="true">&#128062; &#128062; &#128062;</div>
+  </div>
+</footer>
+
+<div id="shelf" aria-label="Sticker shelf. Drag a sticker anywhere on the page.">
+  <span class="shelf-lbl">stickers</span>
+  <span class="sticker" data-glyph="&#127827;">&#127827;</span>
+  <span class="sticker" data-glyph="&#129526;">&#129526;</span>
+  <span class="sticker" data-glyph="&#128062;">&#128062;</span>
+  <span class="sticker" data-glyph="&#10024;">&#10024;</span>
+  <span class="sticker" data-glyph="&#128190;">&#128190;</span>
+  <button id="shelf-tuck" type="button" aria-label="Tuck the sticker shelf away">&#215;</button>
+</div>
+
+<div id="cur" aria-hidden="true">
+  <span class="yarn yarnwrap" style="display:block;">
+    <svg class="yarn" width="26" height="26" viewBox="0 0 26 26" style="transform:translate(-13px,-13px);">
+      <circle cx="13" cy="13" r="10" fill="#FF69B4" stroke="#43223B" stroke-width="2.4"/>
+      <path d="M5 9 C 12 6 18 8 22 13 M4 14 C 10 11 19 13 21 18 M7 20 C 12 15 18 17 19 21" stroke="#43223B" stroke-width="1.6" fill="none" opacity=".65"/>
+    </svg>
+  </span>
+  <svg class="xhair" width="30" height="30" viewBox="0 0 30 30" style="transform:translate(-15px,-15px);">
+    <circle class="ring" cx="15" cy="15" r="8" fill="none" stroke="#2BE3DF" stroke-width="1.8"/>
+    <circle cx="15" cy="15" r="1.8" fill="#5DFF87"/>
+    <path d="M15 1 v5 M15 24 v5 M1 15 h5 M24 15 h5" stroke="#2BE3DF" stroke-width="1.6"/>
+  </svg>
+</div>
+<script>
+(function(){
+"use strict";
+var body=document.body;
+body.dataset.mode="writer";
+var RM=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var FINE=window.matchMedia("(pointer: fine)").matches;
+var qs=function(s,c){return (c||document).querySelector(s);};
+var qsa=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s));};
+
+/* ---------- mode switch + portal ripple ---------- */
+var toggleBtn=qs("#modeToggle"), toggleLabel=qs("#toggle-label"), portal=qs("#portal");
+var typedEl=qs("#typed"), typedFull="SELECT * FROM czekinah;", typeTimer=null;
+
+function typeHero(){
+  if(RM||!typedEl){return;}
+  if(typeTimer){clearInterval(typeTimer);}
+  var i=0; typedEl.textContent="";
+  typeTimer=setInterval(function(){
+    i++; typedEl.textContent=typedFull.slice(0,i);
+    if(i>=typedFull.length){clearInterval(typeTimer);typeTimer=null;}
+  },42);
+}
+function setMode(m){
+  body.dataset.mode=m;
+  toggleBtn.setAttribute("aria-pressed",m==="data"?"true":"false");
+  toggleLabel.textContent=(m==="data")?"technical":"creative";
+  if(m==="data"){typeHero();}
+}
+function flip(x,y){
+  var target=(body.dataset.mode==="data")?"writer":"data";
+  if(RM||!portal){setMode(target);return;}
+  var px=(typeof x==="number")?x:window.innerWidth-60;
+  var py=(typeof y==="number")?y:40;
+  var r=Math.hypot(Math.max(px,window.innerWidth-px),Math.max(py,window.innerHeight-py))+40;
+  portal.style.transition="none";
+  portal.style.background=(target==="data")?"#0A1120":"#FFFAF0";
+  portal.style.clipPath="circle(0px at "+px+"px "+py+"px)";
+  portal.style.opacity="1";
+  requestAnimationFrame(function(){requestAnimationFrame(function(){
+    portal.style.transition="clip-path .58s cubic-bezier(.65,0,.35,1)";
+    portal.style.clipPath="circle("+r+"px at "+px+"px "+py+"px)";
+    setTimeout(function(){
+      setMode(target);
+      portal.style.transition="opacity .32s ease";
+      portal.style.opacity="0";
+      setTimeout(function(){portal.style.transition="none";portal.style.clipPath="circle(0px at 50% 50%)";},340);
+    },600);
+  });});
+}
+toggleBtn.addEventListener("click",function(){
+  var b=toggleBtn.getBoundingClientRect();
+  flip(b.left+b.width/2,b.top+b.height/2);
+});
+qsa(".flipper").forEach(function(f){
+  f.addEventListener("click",function(e){flip(e.clientX,e.clientY);});
+});
+
+/* ---------- custom cursor + trail ---------- */
+var cur=qs("#cur");
+if(FINE&&!RM&&cur){
+  body.classList.add("fancy-cursor");
+  var cx=0,cy=0,shown=false,lastTrail=0;
+  var wColors=["#FF69B4","#FFC61A","#A98BFF","#D81B7F"];
+  var dColors=["#2BE3DF","#5DFF87","#4A82FF"];
+  document.addEventListener("mousemove",function(e){
+    cx=e.clientX;cy=e.clientY;
+    cur.style.transform="translate("+cx+"px,"+cy+"px)";
+    if(!shown){cur.classList.add("on");shown=true;}
+    var hov=e.target&&e.target.closest&&e.target.closest("a,button,input,.sticker,.placed");
+    cur.classList.toggle("hovering",!!hov);
+    var now=Date.now();
+    if(now-lastTrail>26&&document.querySelectorAll(".trail-dot").length<40){
+      lastTrail=now;
+      var d=document.createElement("i");
+      d.className="trail-dot";
+      var pal=(body.dataset.mode==="data")?dColors:wColors;
+      d.style.background=pal[Math.floor(Math.random()*pal.length)];
+      d.style.left=(cx-3)+"px";d.style.top=(cy+6)+"px";
+      document.body.appendChild(d);
+      setTimeout(function(){d.remove();},720);
+    }
+  },{passive:true});
+  document.addEventListener("mouseleave",function(){cur.classList.remove("on");shown=false;});
+}
+
+/* ---------- scroll progress cat ---------- */
+var bar=qs("#trail-bar"),catEl=qs("#trail-cat"),bowl=qs("#trail-bowl"),heart=qs("#trail-heart");
+var stepTimer=null,stepState=false,celebrated=false,ticking=false;
+function paintProgress(){
+  ticking=false;
+  var doc=document.documentElement;
+  var max=(doc.scrollHeight-window.innerHeight)||1;
+  var p=Math.min(1,Math.max(0,(window.scrollY||doc.scrollTop)/max));
+  bar.style.width=(p*100)+"%";
+  var track=window.innerWidth-48;
+  catEl.style.transform="translateX("+(-6+p*track)+"px)";
+  if(p>=0.985){
+    if(!celebrated){
+      celebrated=true;
+      bowl.classList.remove("party");heart.classList.remove("pop");
+      void bowl.offsetWidth;
+      bowl.classList.add("party");heart.classList.add("pop");
+    }
+  }else if(p<0.9){celebrated=false;}
+}
+window.addEventListener("scroll",function(){
+  if(!ticking){ticking=true;requestAnimationFrame(paintProgress);}
+  if(!RM){
+    if(stepTimer){clearTimeout(stepTimer);}
+    else{catEl.classList.add("step");}
+    stepState=!stepState;
+    catEl.classList.toggle("step",stepState);
+    stepTimer=setTimeout(function(){stepTimer=null;catEl.classList.remove("step");},140);
+  }
+},{passive:true});
+window.addEventListener("resize",paintProgress);
+paintProgress();
+
+/* ---------- click confetti drops ---------- */
+var wDrops=["🐾","✨","🍓","⭐"];
+var dDrops=["⚡","💾","🐾","✨"];
+document.addEventListener("click",function(e){
+  if(RM){return;}
+  if(e.target.closest("a,button,input,textarea,select,.sticker,.placed,#shelf,#toggle-dock,#term-sec")){return;}
+  var sel=window.getSelection&&window.getSelection().toString();
+  if(sel){return;}
+  if(document.querySelectorAll(".drop-glyph").length>24){return;}
+  var pal=(body.dataset.mode==="data")?dDrops:wDrops;
+  for(var i=0;i<2;i++){
+    var s=document.createElement("span");
+    s.className="drop-glyph";
+    s.textContent=pal[Math.floor(Math.random()*pal.length)];
+    s.style.left=(e.clientX-10+(i?18:-14))+"px";
+    s.style.top=(e.clientY-8)+"px";
+    s.style.animationDelay=(i*70)+"ms";
+    document.body.appendChild(s);
+    (function(el){setTimeout(function(){el.remove();},1700);})(s);
+  }
+});
+
+/* ---------- draggable stickers ---------- */
+function makeDraggable(el){
+  el.addEventListener("pointerdown",function(e){
+    e.preventDefault();
+    var drag=el;
+    if(el.classList.contains("sticker")){
+      drag=document.createElement("span");
+      drag.className="placed";
+      drag.textContent=el.dataset.glyph;
+      drag.title="drag me. double-click to remove.";
+      document.body.appendChild(drag);
+      makeDraggable(drag);
+    }
+    drag.style.left=(e.pageX-15)+"px";
+    drag.style.top=(e.pageY-18)+"px";
+    var move=function(ev){
+      drag.style.left=(ev.pageX-15)+"px";
+      drag.style.top=(ev.pageY-18)+"px";
+    };
+    var up=function(){
+      document.removeEventListener("pointermove",move);
+      document.removeEventListener("pointerup",up);
+    };
+    document.addEventListener("pointermove",move);
+    document.addEventListener("pointerup",up);
+  });
+  if(el.classList.contains("placed")){
+    el.addEventListener("dblclick",function(){el.remove();});
+  }
+}
+qsa(".sticker").forEach(makeDraggable);
+var shelf=qs("#shelf"),tuck=qs("#shelf-tuck");
+tuck.addEventListener("click",function(){
+  var tucked=shelf.classList.toggle("tucked");
+  tuck.textContent=tucked?"🍓":"×";
+  tuck.setAttribute("aria-label",tucked?"Open the sticker shelf":"Tuck the sticker shelf away");
+});
+
+/* ---------- cat-alytics ---------- */
+var fills=qsa(".bar-fill"),cataCard=qs(".cata-card");
+function fillBars(){fills.forEach(function(f){f.style.width=f.dataset.w+"%";});}
+if("IntersectionObserver" in window&&cataCard){
+  var io=new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting){fillBars();io.disconnect();}
+  },{threshold:.25});
+  io.observe(cataCard);
+}else{fillBars();}
+var treats=0,feedBtn=qs("#feedBtn"),treatCount=qs("#treatCount"),kitty=qs("#cata-kitty"),purrBar=qs("#purrBar"),purrVal=qs("#purrVal");
+feedBtn.addEventListener("click",function(e){
+  treats++;
+  treatCount.textContent=String(treats);
+  var purr=Math.min(100,58+treats*4);
+  purrBar.dataset.w=String(purr);
+  purrBar.style.width=purr+"%";
+  purrVal.textContent=purr+"%"+(purr>=100?" (max purr)":"");
+  kitty.classList.remove("nom");void kitty.getBoundingClientRect();kitty.classList.add("nom");
+  if(!RM){
+    var h=document.createElement("span");
+    h.className="heart-float";
+    h.textContent=(body.dataset.mode==="data")?"♡":"💕";
+    h.style.left=(e.clientX-8)+"px";h.style.top=(e.clientY-24)+"px";
+    document.body.appendChild(h);
+    setTimeout(function(){h.remove();},1250);
+  }
+});
+
+/* ---------- terminal ---------- */
+var termBody=qs("#term-body"),termIn=qs("#term-in");
+function tprint(txt,cls){
+  var p=document.createElement("p");
+  p.className="t-out"+(cls?" "+cls:"");
+  p.textContent=txt;
+  termBody.appendChild(p);
+  termBody.scrollTop=termBody.scrollHeight;
+}
+var CMDS={
+  "help":function(){tprint("available commands:\n  cat projects.txt   whoami   skills\n  contact   meow   sudo make coffee   clear","t-hint");},
+  "cat projects.txt":function(){tprint("[BUILDING]   herding_the_data        python+pandas ETL, cat shelter insights\n[DESIGNING]  campaign_metrics_wh     star schema of 7 yrs of campaign results\n[DAILY]      sql_scratching_post     query practice log\n[FRESH]      github.com/czekinah     first commits landing soon");},
+  "whoami":function(){tprint("czekinah tolentino\ncopywriter (7+ yrs) x data engineer in training\naws re/start + ftw foundation. philippines.");},
+  "skills":function(){tprint("writing: campaigns, brand voice, seo, content strategy\ndata:    python, sql, aws cloud, etl fundamentals");},
+  "contact":function(){tprint("linkedin  -> linkedin.com/in/czekinah\nbehance   -> behance.net/czekinah\ngithub    -> github.com/czekinah");},
+  "meow":function(){tprint(" /\\_/\\\n( o.o )  meow received.\n > ^ <   escalating to purr department.");},
+  "sudo make coffee":function(){tprint("permission granted. brewing... done.\ncoffee_today incremented by 1.");},
+  "clear":function(){termBody.innerHTML="";}
+};
+if(termIn){
+  termIn.addEventListener("keydown",function(e){
+    if(e.key!=="Enter"){return;}
+    var raw=termIn.value.trim();
+    termIn.value="";
+    if(!raw){return;}
+    var echo=document.createElement("p");
+    echo.className="t-out";
+    var ps=document.createElement("span");ps.className="t-dir";ps.textContent="czekinah@purrfolio:~$ ";
+    var cm=document.createElement("span");cm.className="t-cmd";cm.textContent=raw;
+    echo.appendChild(ps);echo.appendChild(cm);
+    termBody.appendChild(echo);
+    var key=raw.toLowerCase();
+    if(CMDS[key]){CMDS[key]();}
+    else{tprint("purrfolio-sh: command not found: "+raw+" (try: help)","t-hint");}
+    termBody.scrollTop=termBody.scrollHeight;
+  });
+  termBody.addEventListener("click",function(){termIn.focus();});
+}
+})();
+</script>
+
+</body>
+</html>
