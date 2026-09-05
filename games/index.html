@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Purr-cade · two tiny cat games by Czekinah</title>
+<meta name="description" content="Tabby Dash and SQL Scratching Post. Two tiny cat games in the purr-folio palette.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..900&family=Baloo+2:wght@400..800&family=JetBrains+Mono:wght@400..800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A1120;--bg-alt:#0B142A;--bg-soft:#0D1830;--card:#101B33;--line:#1D2C4D;
+    --ink:#E9F1FF;--ink-soft:#8FA3C7;--accent:#2BE3DF;--accent-deep:#2BE3DF;--pop:#5DFF87;--third:#4A82FF;
+    --on-accent:#062326;--shadow:#03282D;--r:12px;
+    --font-body:'IBM Plex Sans','Segoe UI',Arial,sans-serif;--font-display:'JetBrains Mono',monospace;--font-mono:'JetBrains Mono','Courier New',monospace;
+  }
+  body.writer{
+    --bg:#FFFAF0;--bg-alt:#F3ECFF;--bg-soft:#FFEDF6;--card:#FFFFFF;--line:#F2D3E3;
+    --ink:#43223B;--ink-soft:#82627B;--accent:#FF69B4;--accent-deep:#D81B7F;--pop:#FFC61A;--third:#A98BFF;
+    --on-accent:#FFFFFF;--shadow:#FFC9E2;--r:22px;
+    --font-body:'Baloo 2','Trebuchet MS',sans-serif;--font-display:'Fraunces',Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  html{background:none}body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:var(--font-body);transition:background .3s,color .3s}
+  a{color:var(--accent-deep)}
+  .wrap{max-width:980px;margin:0 auto;padding:24px 18px 60px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+  .brand{font-family:var(--font-display);font-weight:800;font-size:clamp(26px,4vw,40px);letter-spacing:.5px}
+  .brand small{display:block;font-family:var(--font-mono);font-weight:400;font-size:12px;color:var(--ink-soft);letter-spacing:0}
+  .toggle{display:flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:12px;color:var(--ink-soft)}
+  .switch{position:relative;width:64px;height:30px;border-radius:999px;background:var(--line);border:2px solid var(--line);cursor:pointer;transition:background .3s}
+  .switch::after{content:"🐱";position:absolute;top:1px;left:2px;width:22px;height:22px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-size:13px;transition:left .3s}
+  body.writer .switch::after{left:34px}
+  .grid{display:grid;grid-template-columns:1fr;gap:18px}
+  @media(min-width:860px){.grid{grid-template-columns:1fr 1fr}}
+  .card{background:var(--card);border:2px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:0 10px 0 -6px var(--shadow)}
+  .card h2{font-family:var(--font-mono);font-size:14px;letter-spacing:.5px;margin:0 0 4px;color:var(--accent-deep)}
+  .card p.sub{margin:0 0 12px;font-family:var(--font-mono);font-size:12px;color:var(--ink-soft)}
+  .hud{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:12px;color:var(--ink-soft);margin-top:8px}
+  .hud b{color:var(--pop);font-weight:800}
+  canvas{width:100%;height:auto;display:block;border-radius:10px;background:var(--bg-soft);border:2px solid var(--line);touch-action:manipulation;cursor:pointer}
+  .btn{display:inline-block;font-family:var(--font-mono);font-weight:800;font-size:13px;padding:10px 16px;border-radius:999px;border:0;background:var(--accent);color:var(--on-accent);cursor:pointer;box-shadow:0 4px 0 var(--shadow)}
+  .btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--shadow)}
+  .btn.ghost{background:transparent;color:var(--accent-deep);border:2px solid var(--accent);box-shadow:none}
+  /* quiz */
+  .schema{font-family:var(--font-mono);font-size:11.5px;background:var(--bg-soft);border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:var(--ink-soft);white-space:pre;overflow:auto;margin:0 0 12px}
+  .timer{height:8px;border-radius:4px;background:var(--line);overflow:hidden;margin:8px 0 12px}
+  .timer i{display:block;height:100%;width:100%;background:var(--accent);transition:width .25s linear}
+  .q{font-family:var(--font-mono);font-size:14px;line-height:1.5;margin:0 0 12px;min-height:44px}
+  .opts{display:grid;gap:8px}
+  .opt{text-align:left;font-family:var(--font-mono);font-size:13px;padding:10px 12px;border-radius:10px;border:2px solid var(--line);background:var(--bg-soft);color:var(--ink);cursor:pointer;transition:transform .08s}
+  .opt:hover{transform:translateX(3px);border-color:var(--accent)}
+  .opt.right{border-color:var(--pop);background:color-mix(in srgb,var(--pop) 18%,var(--bg-soft))}
+  .opt.wrong{border-color:var(--accent-deep);opacity:.75}
+  .opt:disabled{cursor:default}
+  .why{font-family:var(--font-mono);font-size:12px;color:var(--ink-soft);margin:10px 0 0;min-height:36px}
+  .result{text-align:center;padding:10px 0}
+  .result .title{font-family:var(--font-display);font-size:clamp(22px,4vw,34px);font-weight:800;color:var(--accent-deep);margin:6px 0}
+  .result .pts{font-family:var(--font-mono);font-size:13px;color:var(--ink-soft)}
+  footer{margin-top:28px;font-family:var(--font-mono);font-size:12px;color:var(--ink-soft);text-align:center}
+  .paw{display:inline-block;animation:bob 2s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(-4px)}}
+  .hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">PURR-CADE<small>// two tiny cat games. same purr-folio, different room.</small></div>
+    <div class="toggle"><span id="modeLabel">render_mode: data-engineer</span><div class="switch" id="switch" role="button" aria-label="flip render mode"></div></div>
+  </header>
+
+  <div class="grid">
+    <!-- ================= TABBY DASH ================= -->
+    <section class="card">
+      <h2>TABBY DASH</h2>
+      <p class="sub">jump the cucumbers. space, up arrow, or tap. cats hate cucumbers. this is documented.</p>
+      <canvas id="dash" width="640" height="220"></canvas>
+      <div class="hud"><span>score <b id="dScore">0</b></span><span>best <b id="dBest">0</b></span><span id="dHint">press space to start</span></div>
+    </section>
+
+    <!-- ================= SQL SCRATCHING POST ================= -->
+    <section class="card">
+      <h2>SQL SCRATCHING POST</h2>
+      <p class="sub">10 questions. 100 pts each. 20 seconds per question. streaks pay extra. earn a title.</p>
+      <div class="schema">cats(id, name, age, mood, naps)
+treats(id, cat_id, kind, given_at)</div>
+      <div id="quizStart">
+        <p class="q">Think in queries. Scratch the post. Claim a title.</p>
+        <button class="btn" id="qStart">./start_quiz</button>
+        <span class="hud" style="display:inline-flex;margin-left:10px">best <b id="qBest">0</b></span>
+      </div>
+      <div id="quizPlay" class="hidden">
+        <div class="hud"><span>question <b id="qNum">1</b>/10</span><span>score <b id="qScore">0</b></span><span>streak <b id="qStreak">0</b></span></div>
+        <div class="timer"><i id="qTimer"></i></div>
+        <p class="q" id="qText"></p>
+        <div class="opts" id="qOpts"></div>
+        <p class="why" id="qWhy"></p>
+        <button class="btn ghost hidden" id="qNext">next →</button>
+      </div>
+      <div id="quizEnd" class="hidden result">
+        <div class="pts">title unlocked</div>
+        <div class="title" id="qTitle"></div>
+        <div class="pts" id="qFinal"></div>
+        <p style="margin:14px 0 0"><button class="btn" id="qAgain">scratch again</button> <button class="btn ghost" id="qCopy">copy result</button></p>
+      </div>
+    </section>
+  </div>
+
+  <footer><span class="paw">🐾</span> Czekinah Tolentino · <a href="https://czekinah.github.io/">purr-folio</a> · <a href="https://github.com/czekinah">github</a> · scores live only in your browser. no accounts, no tracking.</footer>
+</div>
+
+<script>
+/* ---------- render mode ---------- */
+const body = document.body, sw = document.getElementById('switch'), modeLabel = document.getElementById('modeLabel');
+function setMode(m){ body.classList.toggle('writer', m === 'writer'); modeLabel.textContent = 'render_mode: ' + (m === 'writer' ? 'creative-writer' : 'data-engineer'); try{localStorage.setItem('purr_mode', m)}catch(e){} }
+sw.addEventListener('click', () => setMode(body.classList.contains('writer') ? 'engineer' : 'writer'));
+try{ setMode(localStorage.getItem('purr_mode') || (matchMedia('(prefers-color-scheme: light)').matches ? 'writer' : 'engineer')); }catch(e){ setMode('engineer'); }
+const css = (v) => getComputedStyle(body).getPropertyValue(v).trim();
+const store = { get:(k,d)=>{ try{ return JSON.parse(localStorage.getItem(k)) ?? d }catch(e){ return d } }, set:(k,v)=>{ try{ localStorage.setItem(k, JSON.stringify(v)) }catch(e){} } };
+
+/* ---------- TABBY DASH ---------- */
+(function(){
+  const cv = document.getElementById('dash'), ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height, GROUND = H - 40;
+  const sEl = document.getElementById('dScore'), bEl = document.getElementById('dBest'), hint = document.getElementById('dHint');
+  let best = store.get('tabbydash_best', 0); bEl.textContent = best;
+  let state = 'idle', t = 0, speed = 5, score = 0, obs = [], cat, last = 0, dots = [];
+  for (let i = 0; i < 26; i++) dots.push({ x: Math.random()*W, y: 20 + Math.random()*(GROUND-60), r: 1 + Math.random()*1.5 });
+  function reset(){ cat = { x: 90, y: GROUND, vy: 0, w: 46, h: 40, leg: 0 }; obs = []; score = 0; speed = 5; t = 0; }
+  reset();
+  function jump(){
+    if (state === 'idle') { state = 'run'; hint.textContent = 'jump!'; }
+    else if (state === 'over') { reset(); state = 'run'; hint.textContent = 'jump!'; }
+    if (state === 'run' && cat.y >= GROUND) cat.vy = -13.5;
+  }
+  addEventListener('keydown', e => { if (e.code === 'Space' || e.code === 'ArrowUp') { e.preventDefault(); jump(); } });
+  cv.addEventListener('pointerdown', e => { e.preventDefault(); jump(); });
+
+  function drawCat(x, y, leg, col, face){
+    ctx.save(); ctx.translate(x, y); ctx.scale(1.25, 1.25);
+    // tail
+    ctx.strokeStyle = col; ctx.lineWidth = 6; ctx.lineCap = 'round'; ctx.beginPath();
+    ctx.moveTo(-22, -12); ctx.quadraticCurveTo(-40, -18 + Math.sin(t/4)*6, -30, -34); ctx.stroke();
+    // body
+    ctx.fillStyle = col; rr(-24, -34, 48, 34, 12);
+    // legs (running)
+    const a = Math.sin(leg)*5;
+    rr(-18, -4 + a, 10, 8, 3); rr(8, -4 - a, 10, 8, 3);
+    // head
+    rr(-17, -56, 34, 30, 10);
+    tri(-15, -54, -15, -68, -3, -58); tri(15, -54, 15, -68, 3, -58);
+    ctx.fillStyle = face; rr(-10, -46, 5, 6, 2); rr(5, -46, 5, 6, 2);
+    ctx.fillStyle = css('--pop'); tri(-2.5, -38, 2.5, -38, 0, -35);
+    ctx.strokeStyle = face; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(-5,-33); ctx.quadraticCurveTo(-2.5,-30,0,-33); ctx.quadraticCurveTo(2.5,-30,5,-33); ctx.stroke();
+    ctx.restore();
+  }
+  function rr(x,y,w,h,r){ ctx.beginPath(); ctx.roundRect(x,y,w,h,r); ctx.fill(); }
+  function tri(x1,y1,x2,y2,x3,y3){ ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.lineTo(x3,y3); ctx.closePath(); ctx.fill(); }
+  function drawCuke(o){
+    ctx.fillStyle = css('--pop'); rr(o.x, GROUND - o.h, o.w, o.h, o.w/2);
+    ctx.fillStyle = css('--bg'); ctx.globalAlpha = .35; rr(o.x + 4, GROUND - o.h + 6, 4, o.h - 12, 2); ctx.globalAlpha = 1;
+  }
+  function spawn(){
+    const tall = Math.random() < .3, dbl = Math.random() < .25;
+    const h = tall ? 44 : 30, w = 14;
+    obs.push({ x: W + 20, w, h }); if (dbl) obs.push({ x: W + 20 + 22, w, h: 30 });
+  }
+  let nextSpawn = 60;
+  function step(){
+    const col = css('--accent'), face = css('--bg'), ink = css('--ink-soft'), line = css('--line');
+    ctx.clearRect(0,0,W,H);
+    // sky dots
+    ctx.fillStyle = line;
+    dots.forEach(d => { if (state === 'run') d.x -= speed*0.15; if (d.x < 0) d.x = W; ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, 7); ctx.fill(); });
+    // ground
+    ctx.fillStyle = ink; ctx.fillRect(0, GROUND, W, 2);
+    ctx.fillStyle = line; for (let x = (-(t*speed) % 40); x < W; x += 40) ctx.fillRect(x, GROUND + 10, 18, 2);
+
+    if (state === 'run'){
+      t++; score += 0.15; speed = 5 + Math.min(6, score/60);
+      cat.vy += 0.75; cat.y = Math.min(GROUND, cat.y + cat.vy); cat.leg += 0.35;
+      if (--nextSpawn <= 0){ spawn(); nextSpawn = 55 + Math.random()*60 - Math.min(25, score/10); }
+      obs.forEach(o => o.x -= speed); obs = obs.filter(o => o.x + o.w > -10);
+      for (const o of obs){
+        const hit = cat.x + 24 > o.x && cat.x - 24 < o.x + o.w && cat.y > GROUND - o.h + 6;
+        if (hit){ state = 'over'; hint.textContent = 'hiss. space to retry'; best = Math.max(best, Math.floor(score)); store.set('tabbydash_best', best); bEl.textContent = best; }
+      }
+      sEl.textContent = Math.floor(score);
+    }
+    obs.forEach(drawCuke);
+    drawCat(cat.x, cat.y, state === 'run' && cat.y >= GROUND ? cat.leg : 0, col, face);
+    if (state !== 'run'){
+      ctx.fillStyle = css('--ink'); ctx.font = '800 20px JetBrains Mono, monospace'; ctx.textAlign = 'center';
+      ctx.fillText(state === 'idle' ? 'TABBY DASH' : 'hiss.', W/2, 70);
+      ctx.font = '12px JetBrains Mono, monospace'; ctx.fillStyle = ink;
+      ctx.fillText(state === 'idle' ? 'space / tap to run' : 'score ' + Math.floor(score) + '  ·  space / tap to retry', W/2, 92);
+    }
+    requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+})();
+
+/* ---------- SQL SCRATCHING POST ---------- */
+(function(){
+  const Q = [
+    { q: "Which cats have more than 3 naps?", o: ["SELECT name FROM cats WHERE naps > 3;", "SELECT name FROM cats HAVING naps > 3;", "SELECT name WHERE naps > 3 FROM cats;", "SELECT cats WHERE naps > 3;"], a: 0, why: "WHERE filters rows before anything is grouped. HAVING is for groups." },
+    { q: "Count how many cats are in each mood.", o: ["SELECT mood, COUNT(*) FROM cats;", "SELECT mood, COUNT(*) FROM cats GROUP BY mood;", "SELECT COUNT(mood) FROM cats ORDER BY mood;", "SELECT mood FROM cats GROUP BY COUNT(*);"], a: 1, why: "Every non-aggregated column in SELECT needs to be in GROUP BY." },
+    { q: "Which keyword drops duplicate rows from a result?", o: ["UNIQUE", "DISTINCT", "SINGLE", "ONLY"], a: 1, why: "SELECT DISTINCT mood FROM cats returns each mood once." },
+    { q: "Find cats that have never been given a treat.", o: ["SELECT c.name FROM cats c JOIN treats t ON t.cat_id = c.id WHERE t.id IS NULL;", "SELECT c.name FROM cats c LEFT JOIN treats t ON t.cat_id = c.id WHERE t.id IS NULL;", "SELECT name FROM cats WHERE treats = 0;", "SELECT c.name FROM cats c RIGHT JOIN treats t ON t.cat_id = c.id;"], a: 1, why: "LEFT JOIN keeps every cat. Cats with no match get NULL on the treats side, and that is the filter." },
+    { q: "Only show moods that have more than 9 cats.", o: ["... GROUP BY mood WHERE COUNT(*) > 9", "... WHERE COUNT(*) > 9 GROUP BY mood", "... GROUP BY mood HAVING COUNT(*) > 9", "... GROUP BY mood LIMIT 9"], a: 2, why: "HAVING filters after grouping. WHERE cannot see COUNT(*)." },
+    { q: "The three oldest cats.", o: ["SELECT name FROM cats ORDER BY age LIMIT 3;", "SELECT name FROM cats ORDER BY age DESC LIMIT 3;", "SELECT TOP name FROM cats WHERE age = MAX(age);", "SELECT name FROM cats LIMIT 3 ORDER BY age DESC;"], a: 1, why: "DESC puts the oldest first, LIMIT keeps three. LIMIT goes last." },
+    { q: "Rank cats by naps inside each mood.", o: ["RANK() OVER (PARTITION BY mood ORDER BY naps DESC)", "RANK() GROUP BY mood ORDER BY naps DESC", "ORDER BY mood, RANK(naps)", "PARTITION naps BY mood"], a: 0, why: "A window function. PARTITION BY restarts the ranking for each mood." },
+    { q: "Which JOIN keeps every row from the left table even with no match?", o: ["INNER JOIN", "LEFT JOIN", "CROSS JOIN", "SEMI JOIN"], a: 1, why: "INNER drops the unmatched rows. LEFT keeps them and fills the right side with NULL." },
+    { q: "Average naps per cat, rounded to one decimal.", o: ["SELECT ROUND(AVG(naps), 1) FROM cats;", "SELECT AVG(ROUND(naps, 1)) FROM cats;", "SELECT ROUND(naps, 1) FROM cats GROUP BY AVG;", "SELECT AVG(naps) ROUND 1 FROM cats;"], a: 0, why: "Aggregate first, then round the single result." },
+    { q: "Which keyword starts a common table expression (CTE)?", o: ["USING", "TEMP", "WITH", "AS"], a: 2, why: "WITH sleepy AS (SELECT ... ) SELECT ... FROM sleepy. Named, reusable, readable." },
+  ];
+  const $ = id => document.getElementById(id);
+  const start = $('quizStart'), play = $('quizPlay'), end = $('quizEnd');
+  let i = 0, score = 0, streak = 0, timer = null, left = 20, locked = false, best = store.get('sqlpost_best', 0);
+  $('qBest').textContent = best;
+  function show(el){ [start, play, end].forEach(x => x.classList.add('hidden')); el.classList.remove('hidden'); }
+  function title(s){ return s >= 1000 ? 'Chief Cat Officer' : s >= 700 ? 'Senior Purr-gineer' : s >= 400 ? 'Junior Purr-gineer' : 'Kitten Intern'; }
+  function load(){
+    const q = Q[i]; locked = false; left = 20;
+    $('qNum').textContent = i + 1; $('qScore').textContent = score; $('qStreak').textContent = streak;
+    $('qText').textContent = q.q; $('qWhy').textContent = ''; $('qNext').classList.add('hidden');
+    const box = $('qOpts'); box.innerHTML = '';
+    q.o.forEach((o, k) => { const b = document.createElement('button'); b.className = 'opt'; b.textContent = o; b.onclick = () => answer(k); box.appendChild(b); });
+    $('qTimer').style.width = '100%';
+    clearInterval(timer); timer = setInterval(() => { left -= 0.25; $('qTimer').style.width = Math.max(0, left/20*100) + '%'; if (left <= 0) answer(-1); }, 250);
+  }
+  function answer(k){
+    if (locked) return; locked = true; clearInterval(timer);
+    const q = Q[i], btns = [...$('qOpts').children];
+    btns.forEach((b, j) => { b.disabled = true; if (j === q.a) b.classList.add('right'); else if (j === k) b.classList.add('wrong'); });
+    if (k === q.a){ streak++; const bonus = streak >= 3 ? 25 : 0; score += 100 + bonus; $('qWhy').textContent = '✓ +' + (100 + bonus) + (bonus ? ' (streak bonus) ' : ' ') + q.why; }
+    else { streak = 0; $('qWhy').textContent = (k === -1 ? '⏰ time. ' : '✗ ') + q.why; }
+    $('qScore').textContent = score; $('qStreak').textContent = streak;
+    $('qNext').classList.remove('hidden'); $('qNext').textContent = i === Q.length - 1 ? 'see my title →' : 'next →';
+  }
+  $('qNext').onclick = () => { i++; if (i < Q.length) load(); else finish(); };
+  function finish(){
+    best = Math.max(best, score); store.set('sqlpost_best', best); $('qBest').textContent = best;
+    $('qTitle').textContent = title(score); $('qFinal').textContent = score + ' / 1200 pts  ·  best ' + best;
+    show(end);
+  }
+  $('qStart').onclick = () => { i = 0; score = 0; streak = 0; show(play); load(); };
+  $('qAgain').onclick = () => { i = 0; score = 0; streak = 0; show(play); load(); };
+  $('qCopy').onclick = () => { const txt = 'I scratched the post: ' + score + ' pts, title ' + title(score) + '. Try it: https://czekinah.github.io/games/'; navigator.clipboard?.writeText(txt); $('qCopy').textContent = 'copied ✓'; setTimeout(() => $('qCopy').textContent = 'copy result', 1500); };
+})();
+</script>
+</body>
+</html>
