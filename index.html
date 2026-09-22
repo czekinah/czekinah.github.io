@@ -603,6 +603,12 @@ body[data-mode="data"] .trail-dot{border-radius:2px;width:6px;height:6px;}
 
     <div class="proj-grid d-only">
       <article class="proj">
+        <h3>aws_restart_labs/</h3>
+        <p>Cloud, Linux, networking and SQL from AWS re/Start. Seven labs written up with the commands, the transcripts and the failures. 43 labs completed, 72 knowledge checks at 100%.</p>
+        <div class="meta"><span class="chip status">[SHIPPED]</span><span class="chip">AWS</span><span class="chip">SQL</span><span class="chip">Linux</span><span class="chip">Bash</span><a class="card-link" href="https://github.com/czekinah/aws-restart-labs" target="_blank" rel="noopener">Read the labs</a></div>
+        <div class="pipe-overlay"><svg viewBox="0 0 320 44"><path class="pipe-flow" d="M58 22 H 128 M 192 22 H 262"/><rect class="pipe-node" x="10" y="8" width="52" height="28" rx="6"/><rect class="pipe-node" x="132" y="8" width="60" height="28" rx="6"/><rect class="pipe-node" x="258" y="8" width="52" height="28" rx="6"/><text class="pipe-txt" x="22" y="26">build</text><text class="pipe-txt" x="140" y="26">break</text><text class="pipe-txt" x="268" y="26">write</text></svg></div>
+      </article>
+      <article class="proj">
         <h3>herding_the_data/</h3>
         <p>An end-to-end ETL pipeline for cat shelter insights. Raw CSVs in, clean warehouse tables out, adoption trends surfaced.</p>
         <div class="meta"><span class="chip status">[BUILDING]</span><span class="chip">Python</span><span class="chip">pandas</span><span class="chip">SQL</span></div>
@@ -621,9 +627,9 @@ body[data-mode="data"] .trail-dot{border-radius:2px;width:6px;height:6px;}
         <div class="pipe-overlay"><svg viewBox="0 0 320 44"><path class="pipe-flow" d="M58 22 H 128 M 192 22 H 262"/><rect class="pipe-node" x="10" y="8" width="52" height="28" rx="6"/><rect class="pipe-node" x="132" y="8" width="60" height="28" rx="6"/><rect class="pipe-node" x="258" y="8" width="52" height="28" rx="6"/><text class="pipe-txt" x="18" y="26">select</text><text class="pipe-txt" x="140" y="26">join</text><text class="pipe-txt" x="264" y="26">window</text></svg></div>
       </article>
       <article class="proj">
-        <h3>github.com/czekinah</h3>
-        <p>Fresh install, August 2026. New repo smell. First public commits landing soon; watch this space.</p>
-        <div class="meta"><span class="chip status">[FRESH INSTALL]</span><span class="chip">Git</span><a class="card-link" href="https://github.com/czekinah" target="_blank" rel="noopener">Follow along</a></div>
+        <h3>ftw_de_journal/</h3>
+        <p>One session, one entry, one commit. What actually happened on FTW Saturdays, written the same week it happened. The LinkedIn version is the polished one.</p>
+        <div class="meta"><span class="chip status">[WEEKLY]</span><span class="chip">Git</span><span class="chip">Databricks</span><a class="card-link" href="https://github.com/czekinah/ftw-de-journal" target="_blank" rel="noopener">Read the entries</a></div>
         <div class="pipe-overlay"><svg viewBox="0 0 320 44"><path class="pipe-flow" d="M58 22 H 128 M 192 22 H 262"/><rect class="pipe-node" x="10" y="8" width="52" height="28" rx="6"/><rect class="pipe-node" x="132" y="8" width="60" height="28" rx="6"/><rect class="pipe-node" x="258" y="8" width="52" height="28" rx="6"/><text class="pipe-txt" x="22" y="26">init</text><text class="pipe-txt" x="136" y="26">commit</text><text class="pipe-txt" x="270" y="26">push</text></svg></div>
       </article>
     </div>
@@ -1032,7 +1038,7 @@ function tprint(txt,cls){
 }
 var CMDS={
   "help":function(){tprint("available commands:\n  cat projects.txt   whoami   skills\n  contact   meow   sudo make coffee   clear","t-hint");},
-  "cat projects.txt":function(){tprint("[BUILDING]   herding_the_data        python+pandas ETL, cat shelter insights\n[DESIGNING]  campaign_metrics_wh     star schema of 7 yrs of campaign results\n[DAILY]      sql_scratching_post     query practice log\n[FRESH]      github.com/czekinah     first commits landing soon");},
+  "cat projects.txt":function(){tprint("[SHIPPED]    aws_restart_labs        43 aws re/start labs, 7 written up in full\n[WEEKLY]     ftw_de_journal          one session, one entry, one commit\n[BUILDING]   herding_the_data        python+pandas ETL, cat shelter insights\n[DESIGNING]  campaign_metrics_wh     star schema of 7 yrs of campaign results\n[DAILY]      sql_scratching_post     query practice log");},
   "whoami":function(){tprint("czekinah tolentino\ncopywriter (7+ yrs) x data engineer in training\naws re/start + ftw foundation. philippines.");},
   "skills":function(){tprint("writing: campaigns, brand voice, seo, content strategy\ndata:    python, sql, aws cloud, etl fundamentals");},
   "contact":function(){tprint("linkedin  -> linkedin.com/in/czekinah\nbehance   -> behance.net/czekinah\ngithub    -> github.com/czekinah");},
