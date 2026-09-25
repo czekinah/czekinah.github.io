@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Czekinah Tolentino: copywriter with 7+ years of campaigns, now training as a data engineer. Flip the cat toggle to see both modes.">
+<meta name="description" content="Czekinah Tolentino: copywriter for 7+ years, direct response copywriter and quality lead at Amare Group, data engineer in training. A cat walks you through the trail: six stops, a few side quests, two render modes.">
 <meta property="og:title" content="Czekinah's Purr-folio">
-<meta property="og:description" content="One life, two render modes: creative writer and data engineer in training.">
+<meta property="og:description" content="One life, two render modes. Six stops from a weather newsroom to data pipelines, with side quests.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128049;</text></svg>">
 <title>Czekinah's Purr-folio</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,100,1&family=Baloo+2:wght@400..800&family=JetBrains+Mono:ital,wght@0,400..800;1,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
@@ -377,6 +377,218 @@ body[data-mode="data"] .trail-dot{border-radius:2px;width:6px;height:6px;}
 #cur{opacity:0;transition:opacity .2s ease;}
 #cur.on{opacity:1;}
 </style>
+<style>
+/* ============ v2: the trail, stops, ticket, quests, recruiter mode ============ */
+
+/* stations on the scroll trail */
+.station{position:absolute;top:2px;width:3px;height:11px;border-radius:2px;background:var(--ink-soft);opacity:.55;transform:translateX(-1px);}
+body[data-mode="data"] .station{background:var(--accent);opacity:.5;}
+.station.passed{background:var(--pop);opacity:1;}
+
+/* stops nav (top left) */
+#stops-nav{position:fixed;top:14px;left:16px;z-index:225;display:flex;align-items:center;gap:6px;background:var(--card);border:3px solid var(--ink);border-radius:999px;padding:6px 10px;box-shadow:4px 4px 0 var(--card-shadow);max-width:calc(100vw - 150px);overflow-x:auto;scrollbar-width:none;}
+#stops-nav::-webkit-scrollbar{display:none;}
+body[data-mode="data"] #stops-nav{border:1px solid var(--line);box-shadow:0 0 16px rgba(43,227,223,.25);}
+#stops-nav a{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink-soft);font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.06em;padding:4px 8px;border-radius:999px;white-space:nowrap;}
+#stops-nav a .dot{width:9px;height:9px;border-radius:50%;border:2px solid var(--ink-soft);background:transparent;flex:none;}
+#stops-nav a.active{color:var(--ink);background:var(--bg-alt);}
+#stops-nav a.active .dot{background:var(--accent);border-color:var(--accent);}
+#stops-nav a.seen .dot{border-color:var(--pop);}
+#stops-nav a.seen.active .dot{background:var(--accent);border-color:var(--accent);}
+#stops-nav a:hover{color:var(--ink);}
+#stops-nav .lbl{display:inline;}
+@media (max-width:900px){#stops-nav{top:10px;left:10px;padding:5px 8px;gap:2px;}#stops-nav .lbl{display:none;}#stops-nav a{padding:4px 5px;}}
+
+/* recruiter mode button sits with the toggle */
+#recruiterBtn{cursor:pointer;border:3px solid var(--ink);background:var(--card);color:var(--ink);font-family:var(--font-mono);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:6px 10px;border-radius:999px;box-shadow:3px 3px 0 var(--card-shadow);}
+body[data-mode="data"] #recruiterBtn{border:1px solid var(--accent);color:var(--accent);box-shadow:none;border-radius:8px;}
+#recruiterBtn:hover{transform:translate(-1px,-1px);}
+
+/* hero v2 */
+.hero{padding:126px 24px 24px;}
+.hero-grid{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);}
+.hero-tag{max-width:38ch;}
+.now-strip{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:22px;font-family:var(--font-mono);font-size:12.5px;color:var(--ink-soft);}
+.now-strip b{color:var(--ink);font-weight:700;}
+.now-strip span{white-space:normal;}
+.now-strip b{white-space:nowrap;}
+body[data-mode="data"] .now-strip b{color:var(--accent);}
+
+/* the ticket */
+.ticket-wrap{margin-top:30px;max-width:460px;}
+.ticket{position:relative;background:var(--card);border:3px solid var(--ink);border-radius:18px;padding:16px 18px 14px;box-shadow:6px 6px 0 var(--card-shadow);cursor:pointer;user-select:none;transform:rotate(-1.2deg);transition:transform .15s ease;}
+.ticket:hover{transform:rotate(-1.2deg) translate(-2px,-2px);}
+body[data-mode="data"] .ticket{border:1px solid var(--accent);box-shadow:0 0 22px rgba(43,227,223,.2);border-radius:10px;transform:none;}
+.ticket::before,.ticket::after{content:"";position:absolute;top:50%;width:22px;height:22px;border-radius:50%;background:var(--bg);border:3px solid var(--ink);transform:translateY(-50%);}
+.ticket::before{left:-14px;}
+.ticket::after{right:-14px;}
+body[data-mode="data"] .ticket::before,body[data-mode="data"] .ticket::after{border:1px solid var(--accent);}
+.t-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:8px 0;}
+.t-row+.t-row{border-top:2px dashed var(--line);}
+.t-k{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);display:block;}
+.t-v{font-family:var(--font-display);font-weight:800;font-size:19px;line-height:1.15;display:block;}
+body[data-mode="data"] .t-v{font-size:15px;}
+.t-v.small{font-size:13.5px;font-family:var(--font-mono);font-weight:600;}
+.t-foot{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);}
+.t-cta{position:absolute;top:-16px;right:14px;background:var(--pop);color:#4A3402;font-family:var(--font-mono);font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:5px 11px;border-radius:999px;border:2px solid var(--ink);transform:rotate(3deg);}
+body[data-mode="data"] .t-cta{background:var(--pop);color:#062326;border-color:var(--pop);transform:none;top:-12px;}
+.ticket.stamped .t-cta{display:none;}
+.stamp{position:absolute;right:4px;bottom:-10px;width:84px;height:84px;opacity:0;transform:scale(2.4) rotate(-30deg);pointer-events:none;display:none;}
+.ticket.stamped .stamp{display:block;animation:stampin .42s cubic-bezier(.2,1.4,.4,1) forwards;}
+@keyframes stampin{to{opacity:1;transform:scale(1) rotate(-14deg);}}
+.stamp text{font-family:var(--font-mono);font-weight:800;}
+
+/* stops (sections) */
+.stop{position:relative;}
+.stop-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+.stop-num{font-family:var(--font-mono);font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--on-accent);background:var(--accent-deep);padding:6px 12px;border-radius:999px;border:2px solid var(--ink);}
+body[data-mode="data"] .stop-num{background:transparent;color:var(--pop);border:1px solid var(--pop);border-radius:6px;}
+.stop-year{font-family:var(--font-mono);font-size:12.5px;color:var(--ink-soft);letter-spacing:.08em;}
+.stop p.lead{font-size:clamp(17.5px,1.9vw,20px);line-height:1.7;max-width:64ch;}
+.stop .facts{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:8px;font-size:15.5px;max-width:64ch;}
+.stop .facts li{padding-left:26px;position:relative;}
+.stop .facts li::before{content:"";position:absolute;left:0;top:7px;width:14px;height:14px;border-radius:50%;background:var(--pop);border:2px solid var(--ink);}
+body[data-mode="data"] .stop .facts li::before{border-radius:3px;background:transparent;border:1px solid var(--accent);}
+.stop .facts b{font-weight:800;}
+.next-stop{display:inline-flex;align-items:center;gap:10px;margin-top:34px;font-family:var(--font-mono);font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--ink-soft);}
+.next-stop:hover{color:var(--ink);}
+.next-stop .arr{display:inline-block;animation:bob 1.6s ease-in-out infinite;}
+@keyframes bob{50%{transform:translateY(4px);}}
+.stop-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:36px;align-items:start;}
+.stop-grid > *{min-width:0;}
+.side-card{background:var(--card);border:3px solid var(--ink);border-radius:var(--r-a);padding:20px 22px;box-shadow:6px 6px 0 var(--card-shadow);}
+body[data-mode="data"] .side-card{border:1px solid var(--line);box-shadow:none;border-radius:10px;}
+.side-card h3{font-size:18px;margin:0 0 10px;}
+body[data-mode="data"] .side-card h3{color:var(--accent);font-size:15px;}
+.side-card ul{list-style:none;padding:0;margin:0;display:grid;gap:8px;font-size:14.5px;}
+.side-card li span.k{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-soft);display:block;letter-spacing:.06em;}
+.brand-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;}
+.brand{display:inline-flex;flex-direction:column;gap:2px;text-decoration:none;color:var(--ink);background:var(--bg-alt);border:2px solid var(--ink);border-radius:14px;padding:10px 14px;min-width:150px;}
+body[data-mode="data"] .brand{border:1px solid var(--line);background:#0B1220;border-radius:8px;}
+.brand b{font-family:var(--font-display);font-size:16px;}
+body[data-mode="data"] .brand b{color:var(--accent);font-size:14px;}
+.brand small{font-size:12.5px;color:var(--ink-soft);}
+.brand:hover{transform:translateY(-2px);}
+.brand .url{font-family:var(--font-mono);font-size:11px;color:var(--accent-deep);margin-top:4px;}
+.bench{margin-top:22px;font-family:var(--font-mono);font-size:13px;color:var(--ink-soft);line-height:1.8;}
+.bench b{color:var(--ink);}
+
+/* stop 02 background stripe like the old projects section */
+#stop-2,#stop-6{background:var(--bg-soft);border-top:3px dashed var(--line);border-bottom:3px dashed var(--line);}
+body[data-mode="data"] #stop-2,body[data-mode="data"] #stop-6{border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+#stop-4{background:var(--bg-alt);}
+.receipts{margin-top:34px;}
+
+/* quest log (side quests) */
+.quest-log{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:30px;}
+.quest{background:var(--card);border:3px solid var(--ink);border-radius:var(--r-b);box-shadow:7px 7px 0 var(--card-shadow);overflow:hidden;}
+.quest:nth-child(2n){border-radius:var(--r-a);}
+body[data-mode="data"] .quest{border:1px solid var(--line);box-shadow:none;border-radius:10px;}
+.quest summary{list-style:none;cursor:pointer;padding:20px 22px;display:flex;align-items:center;gap:14px;}
+.quest summary::-webkit-details-marker{display:none;}
+.quest .q-ico{width:44px;height:44px;flex:none;display:grid;place-items:center;border-radius:12px;background:var(--bg-alt);border:2px solid var(--ink);font-size:22px;}
+body[data-mode="data"] .quest .q-ico{border:1px solid var(--line);background:#0B1220;}
+.quest summary .q-text{display:flex;flex-direction:column;flex:1;min-width:0;}
+.quest .q-title{display:block;font-family:var(--font-display);font-weight:800;font-size:19px;line-height:1.2;}
+body[data-mode="data"] .quest .q-title{font-size:15px;color:var(--accent);}
+.quest .q-sub{display:block;font-family:var(--font-mono);font-size:12px;color:var(--ink-soft);margin-top:3px;}
+.quest .q-state{margin-left:auto;font-family:var(--font-mono);font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:var(--bg-alt);border:2px solid var(--line);color:var(--ink-soft);white-space:nowrap;}
+.quest[open] .q-state,.quest.done .q-state{background:var(--pop);color:#4A3402;border-color:var(--ink);}
+body[data-mode="data"] .quest[open] .q-state,body[data-mode="data"] .quest.done .q-state{background:transparent;color:var(--pop);border-color:var(--pop);}
+.quest .q-body{padding:0 22px 22px;font-size:15px;line-height:1.65;}
+.quest .q-body p{max-width:none;}
+.quest .q-body ul{padding-left:20px;margin:8px 0;}
+.quest .q-body li{margin:4px 0;}
+.quest .q-links{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:10px;font-weight:700;font-size:14px;}
+.podcast-box{margin-top:12px;border:2px dashed var(--line);border-radius:14px;padding:12px;}
+.podcast-box iframe{width:100%;height:152px;border:0;border-radius:12px;display:block;}
+.podcast-box .btn{font-size:14px;padding:10px 16px;}
+.quest-progress{font-family:var(--font-mono);font-size:13px;color:var(--ink-soft);margin-top:18px;}
+.quest-progress b{color:var(--ink);}
+.offwork{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:9px;font-size:15.5px;}
+.offwork li{display:flex;gap:12px;align-items:baseline;}
+.offwork .k{font-family:var(--font-mono);font-size:12.5px;color:var(--ink-soft);min-width:96px;letter-spacing:.06em;}
+
+/* achievements toast + counter */
+#toast{position:fixed;right:16px;bottom:16px;z-index:260;background:var(--card);border:3px solid var(--ink);border-radius:16px;padding:12px 16px;box-shadow:5px 5px 0 var(--card-shadow);display:flex;align-items:center;gap:12px;max-width:min(360px,calc(100vw - 32px));transform:translateY(140%);opacity:0;transition:transform .35s cubic-bezier(.4,1.4,.5,1),opacity .3s ease;pointer-events:none;}
+#toast.show{transform:translateY(0);opacity:1;}
+body[data-mode="data"] #toast{border:1px solid var(--accent);box-shadow:0 0 20px rgba(43,227,223,.35);border-radius:10px;}
+#toast .t-ico{font-size:24px;}
+#toast .t-title{font-family:var(--font-mono);font-size:10.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-deep);}
+#toast .t-msg{font-weight:700;font-size:14.5px;line-height:1.3;}
+.ach-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.ach{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:999px;border:2px solid var(--line);color:var(--ink-soft);background:var(--bg-alt);opacity:.65;}
+.ach.on{opacity:1;border-color:var(--ink);color:var(--ink);background:var(--card);}
+body[data-mode="data"] .ach{border:1px solid var(--line);border-radius:6px;background:#0B1220;}
+body[data-mode="data"] .ach.on{border-color:var(--pop);color:var(--pop);background:transparent;}
+.ach .ico{filter:grayscale(1);opacity:.6;}
+.ach.on .ico{filter:none;opacity:1;}
+
+/* recruiter mode modal */
+#rmodal{position:fixed;inset:0;z-index:300;display:none;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto;background:rgba(10,17,32,.55);backdrop-filter:blur(3px);}
+#rmodal.open{display:flex;}
+.tldr{background:var(--card);color:var(--ink);border:3px solid var(--ink);border-radius:22px;box-shadow:8px 8px 0 var(--card-shadow);max-width:720px;width:100%;padding:28px 30px 26px;position:relative;margin:24px 0;}
+body[data-mode="data"] .tldr{border:1px solid var(--accent);box-shadow:0 0 40px rgba(43,227,223,.25);border-radius:12px;}
+.tldr h2{font-size:clamp(24px,3vw,32px);margin:0 0 4px;}
+.tldr .sub{font-family:var(--font-mono);font-size:13px;color:var(--ink-soft);margin:0 0 18px;}
+.tldr h3{font-size:12px;font-family:var(--font-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--accent-deep);margin:18px 0 8px;}
+.tldr ul{margin:0;padding-left:20px;font-size:15px;line-height:1.55;}
+.tldr .grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px 22px;}
+.tldr .kv{display:grid;grid-template-columns:120px 1fr;gap:8px;font-size:14.5px;margin:0;}
+.tldr .kv dt{font-family:var(--font-mono);font-size:12px;color:var(--ink-soft);}
+.tldr .kv dd{margin:0;}
+.tldr .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;}
+.tldr .close{position:absolute;top:12px;right:14px;border:none;background:none;font-size:26px;cursor:pointer;color:var(--ink-soft);line-height:1;}
+.tldr .nums{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:10px 0 4px;}
+.tldr .nums div{background:var(--bg-alt);border:2px solid var(--line);border-radius:12px;padding:10px;text-align:center;}
+.tldr .nums b{display:block;font-family:var(--font-display);font-size:22px;color:var(--accent-deep);}
+.tldr .nums span{font-size:11.5px;color:var(--ink-soft);line-height:1.2;display:block;}
+@media (max-width:700px){.tldr .grid2,.tldr .nums{grid-template-columns:1fr 1fr;}.tldr{padding:22px 18px;}.tldr .kv{grid-template-columns:1fr;gap:2px;}}
+@media print{
+  body *{visibility:hidden !important;}
+  #rmodal,#rmodal *{visibility:visible !important;}
+  #rmodal{position:static;display:block !important;background:none;backdrop-filter:none;padding:0;}
+  .tldr{box-shadow:none;border:1px solid #999;max-width:none;margin:0;}
+  .tldr .actions,.tldr .close{display:none !important;}
+}
+
+/* END station */
+.end-station{text-align:center;padding-top:16px;}
+.end-station svg{max-width:520px;width:100%;height:auto;display:block;margin:0 auto 6px;}
+.end-sign{display:inline-block;font-family:var(--font-mono);font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;background:var(--pop);color:#4A3402;border:2px solid var(--ink);border-radius:8px;padding:6px 14px;margin-bottom:18px;}
+body[data-mode="data"] .end-sign{background:transparent;color:var(--pop);border-color:var(--pop);}
+.made-with{font-size:14px;color:var(--ink-soft);margin-top:18px;}
+
+/* mobile tune-ups for v2 */
+@media (max-width:900px){
+  .hero{padding:104px 20px 20px;}
+  .hero-grid{grid-template-columns:1fr;}
+  .hero-art{max-width:420px;margin:0 auto;}
+  .stop-grid{grid-template-columns:1fr;}
+  .quest-log{grid-template-columns:1fr;}
+  .ticket-wrap{max-width:none;}
+  .t-row{grid-template-columns:1fr 1fr 1fr;}
+  #toggle-dock{flex-direction:row;gap:8px;}
+  #toggle-label{display:none;}
+}
+@media (max-width:520px){
+  .ticket{transform:none;}
+  .ticket:hover{transform:none;}
+  .ticket-wrap{padding:0 4px;}
+  .t-row{grid-template-columns:1fr 1fr;}
+  .t-v{font-size:16px;}
+  .stop .facts{font-size:14.5px;}
+  .quest summary{padding:16px 16px;}
+  .quest .q-body{padding:0 16px 16px;}
+  .quest .q-state{display:none;}
+  .offwork .k{min-width:78px;}
+}
+
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}}
+.stop,#inventory,#catalytics,#term-sec,#play,#end{scroll-margin-top:60px;}
+.proj h3{overflow-wrap:anywhere;}
+</style>
 
 </head>
 <body>
@@ -416,6 +628,17 @@ body[data-mode="data"] .trail-dot{border-radius:2px;width:6px;height:6px;}
   <span id="trail-heart">&#10084;</span>
 </div>
 
+<nav id="stops-nav" aria-label="Stops on this page">
+  <a href="#top" data-stop="top"><span class="dot"></span><span class="lbl">start</span></a>
+  <a href="#stop-1" data-stop="stop-1"><span class="dot"></span><span class="lbl">01</span></a>
+  <a href="#stop-2" data-stop="stop-2"><span class="dot"></span><span class="lbl">02</span></a>
+  <a href="#stop-3" data-stop="stop-3"><span class="dot"></span><span class="lbl">03</span></a>
+  <a href="#stop-4" data-stop="stop-4"><span class="dot"></span><span class="lbl">04</span></a>
+  <a href="#stop-5" data-stop="stop-5"><span class="dot"></span><span class="lbl">05</span></a>
+  <a href="#stop-6" data-stop="stop-6"><span class="dot"></span><span class="lbl">06</span></a>
+  <a href="#end" data-stop="end"><span class="dot"></span><span class="lbl">end</span></a>
+</nav>
+
 <div id="toggle-dock">
   <button id="modeToggle" type="button" aria-pressed="false" aria-label="Switch between creative writer mode and data engineer mode">
     <span class="rail-ico rail-w" aria-hidden="true">Aa</span>
@@ -439,9 +662,10 @@ body[data-mode="data"] .trail-dot{border-radius:2px;width:6px;height:6px;}
     </span>
   </button>
   <span id="toggle-label">creative</span>
+  <button id="recruiterBtn" type="button" aria-haspopup="dialog" aria-controls="rmodal">recruiter mode</button>
 </div>
 
-<header class="hero wrap">
+<header class="hero wrap" id="top">
   <div class="hero-grid">
     <div>
       <span class="eyebrow w-only">the purr-folio of Czekinah Tolentino</span>
@@ -450,11 +674,18 @@ body[data-mode="data"] .trail-dot{border-radius:2px;width:6px;height:6px;}
       <h1 class="w-only">Czekinah writes<span class="dot">.</span></h1>
       <h1 class="d-only" aria-label="SELECT * FROM czekinah;"><span id="typed">SELECT * FROM czekinah;</span><span class="type-caret" aria-hidden="true"></span></h1>
 
-      <p class="hero-tag w-only">Copy that sticks to your brain like <span class="hl">cat hair on a black sweater</span>. Seven years of campaigns for brands all over the Philippines.</p>
-      <p class="hero-tag d-only">Data engineer in training. Learning to build pipelines as <span class="hl">agile as a hunting tabby</span>, with seven years of messy real-world inputs behind me.</p>
+      <p class="hero-tag w-only">Seven years of ads, scripts and landing pages for Filipino brands. Now I am learning to build the <span class="hl">pipelines behind the numbers</span> I used to chase. This page is the trail. Scroll and the cat walks it with you.</p>
+      <p class="hero-tag d-only">Copywriter by trade, data engineer in training. Seven years of <span class="hl">messy real-world inputs</span>. Now learning the systems that clean them. Scroll, and the cat walks the trail with you.</p>
+
+      <div class="now-strip" aria-label="Right now">
+        <span><b>@AMARE GROUP</b> direct response copywriter &amp; quality lead</span>
+        <span><b>@FTW FOUNDATION</b> data engineering scholar, batch 12</span>
+        <span><b>@AWS RE/START</b> cloud scholar, batch 29</span>
+        <span>prev <b>@STRAKER</b> <b>@OGILVY</b> <b>@XIKLAB</b></span>
+      </div>
 
       <div class="hero-ctas">
-        <a class="btn" href="#projects"><span class="w-only">See the work</span><span class="d-only">./view_projects</span></a>
+        <a class="btn" href="#stop-1"><span class="w-only">Start the trail</span><span class="d-only">./start_trail</span></a>
         <a class="btn ghost w-only" href="https://www.behance.net/czekinah" target="_blank" rel="noopener">Behance</a>
         <a class="btn ghost d-only" href="https://github.com/czekinah" target="_blank" rel="noopener">GitHub</a>
       </div>
@@ -464,6 +695,7 @@ body[data-mode="data"] .trail-dot{border-radius:2px;width:6px;height:6px;}
       </p>
     </div>
 
+    <div>
     <div class="hero-art">
       <svg class="w-only" viewBox="0 0 420 320" role="img" aria-label="A pink cat lounging on a pile of colorful books">
         <ellipse cx="210" cy="292" rx="185" ry="16" fill="#F3ECFF"/>
@@ -527,16 +759,93 @@ body[data-mode="data"] .trail-dot{border-radius:2px;width:6px;height:6px;}
         <ellipse cx="228" cy="126" rx="11" ry="6" fill="#060B16" stroke="#2BE3DF" stroke-width="1.6"/>
       </svg>
     </div>
+      <div class="ticket-wrap">
+        <div class="ticket" id="ticket" role="button" tabindex="0" aria-label="Day pass. Click to stamp it.">
+          <span class="t-cta">click to stamp</span>
+          <div class="t-row">
+            <div><span class="t-k">from</span><span class="t-v">paragraphs</span></div>
+            <div><span class="t-k">to</span><span class="t-v">pipelines</span></div>
+            <div><span class="t-k">fare</span><span class="t-v small">round trip</span></div>
+          </div>
+          <div class="t-row">
+            <div><span class="t-k">passenger</span><span class="t-v small">you!</span></div>
+            <div><span class="t-k">today</span><span class="t-v small" id="tk-date">25 Sep</span></div>
+            <div><span class="t-k">now</span><span class="t-v small" id="tk-time">--:--</span></div>
+          </div>
+          <div class="t-foot"><span>czekinah's 2026 purr-folio</span><span>PAW-01</span></div>
+          <svg class="stamp" viewBox="0 0 100 100" aria-hidden="true">
+            <circle cx="50" cy="50" r="46" fill="none" stroke="var(--accent-deep)" stroke-width="4" stroke-dasharray="6 4"/>
+            <g fill="var(--accent-deep)" transform="translate(50 46) scale(1.15) translate(-12 -12)">
+              <ellipse cx="7" cy="7" rx="2.4" ry="3"/><ellipse cx="17" cy="7" rx="2.4" ry="3"/><ellipse cx="3.4" cy="12" rx="2.1" ry="2.7"/><ellipse cx="20.6" cy="12" rx="2.1" ry="2.7"/>
+              <path d="M12 10c3.8 0 6.5 2.6 6.5 5.4 0 2.4-2 3.8-4.1 3.3-1.2-.3-1.7-.3-2.4-.3s-1.2 0-2.4.3c-2.1.5-4.1-.9-4.1-3.3C5.5 12.6 8.2 10 12 10z"/>
+            </g>
+            <text x="50" y="84" text-anchor="middle" font-size="11" fill="var(--accent-deep)">STAMPED</text>
+          </svg>
+        </div>
+      </div>
+    </div>
   </div>
 </header>
 
 <main>
-<section id="stats" class="wrap" aria-label="Career highlights">
-  <span class="eyebrow w-only">the receipts</span>
-  <span class="eyebrow d-only">-- same numbers, different renderer</span>
-  <h2 class="w-only">Words that moved numbers</h2>
-  <h2 class="d-only">writer_era.sql</h2>
 
+<section id="stop-1" class="stop wrap">
+  <div class="stop-head"><span class="stop-num">Stop 01</span><span class="stop-year">2017 &middot; the weather newsroom</span></div>
+  <span class="eyebrow w-only">where it started</span>
+  <span class="eyebrow d-only">$ cat stop_01/origin.md</span>
+  <h2 class="w-only">First byline, weather included</h2>
+  <h2 class="d-only">origin/ (intern, panahon_tv)</h2>
+  <div class="stop-grid">
+    <div>
+      <p class="lead">I started inside PAGASA, at Panahon TV, as a production intern. I pitched a segment called Calamitips, small disaster tips people could actually use. I wrote about jeepney modernization and what it would cost the drivers and the commuters. I helped make Pasan, a documentary on mental health that got a film festival nomination. Four months, and I learned the thing I still work by: write fast, for people who are busy, about things that matter to them.</p>
+      <ul class="facts">
+        <li><b>Calamitips</b>, a disaster risk reduction segment I pitched and developed</li>
+        <li><b>The E-Jeepney Challenge</b>, an article on PUV modernization and who pays for it</li>
+        <li><b>Pasan</b>, production assistant and actress, nominated at the 3rd Quisumbing Escandor Film Festival for Mental Health</li>
+      </ul>
+    </div>
+    <div class="side-card">
+      <h3><span class="w-only">Loot from this stop</span><span class="d-only">// picked up here</span></h3>
+      <ul>
+        <li><span class="k">skill</span>Writing to a deadline that is the 6 PM newscast</li>
+        <li><span class="k">skill</span>Turning a technical topic into something a commuter reads</li>
+        <li><span class="k">habit</span>Pitching, not waiting to be assigned</li>
+      </ul>
+    </div>
+  </div>
+  <a class="next-stop" href="#stop-2">next stop <span class="arr">&darr;</span> the agency years</a>
+</section>
+
+<section id="stop-2" class="stop">
+  <div class="wrap">
+    <div class="stop-head"><span class="stop-num">Stop 02</span><span class="stop-year">2018 to 2024 &middot; Xiklab Digital, then Ogilvy</span></div>
+    <span class="eyebrow w-only">the agency years</span>
+    <span class="eyebrow d-only">$ cat stop_02/agency.md</span>
+    <h2 class="w-only">Campaigns with claws</h2>
+    <h2 class="d-only">agency/ (two shops, six years)</h2>
+    <div class="stop-grid">
+      <div>
+        <p class="lead">Xiklab Digital first, the biggest Filipino digital agency at the time. Pharma, a bank, snacks, real estate. I wrote the RiteMed articles that took ritemed.com.ph to number one for moms in the Philippines, and the Pharex campaigns where sales grew 291% year on year at the peak. Anti-Ngalay, a campaign built on a word every Filipino already uses, got a PANATA nomination for creative effectiveness. Then Ogilvy, where the work went on TV and radio: Biogesic, Neozep Forte, Lady's Choice. I wrote Neozep's first green-score radio ads, and the agency sent me to Young Lions in 2022 and Young Spikes in 2024.</p>
+        <ul class="facts">
+          <li><b>RiteMed "Tamang Alaga"</b>: SEO articles, and radio spiels with Mike Enriquez on DZBB</li>
+          <li><b>Pharex portfolio</b>: B Complex, E, Fortiplex, MediCS, Sorexidine, with sales up 291% at the peak</li>
+          <li><b>Anti-Ngalay</b>: 884% of the reach target, PANATA Awards 2020 shortlist</li>
+          <li><b>Ogilvy</b>: TVC and radio scripts, DJ spiels, pitch decks, client presentations</li>
+        </ul>
+      </div>
+      <div class="side-card">
+        <h3><span class="w-only">Brands I wrote for</span><span class="d-only">// clients.txt</span></h3>
+        <ul>
+          <li><span class="k">pharma</span>Biogesic, Neozep Forte, RiteMed, Pharex, Ricola</li>
+          <li><span class="k">everyday</span>Lady's Choice, Potato Corner, Rebisco, Purefoods, Orocan</li>
+          <li><span class="k">money and places</span>CIMB Bank, Manulife, JCB, Bonifacio Global City, Bonifacio High Street</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="receipts">
+      <span class="eyebrow w-only">the receipts</span>
+      <span class="eyebrow d-only">-- same numbers, different renderer</span>
   <div class="stat-grid w-only">
     <div class="stat-tile"><span class="num">291%</span><span class="lbl">sales growth on my best campaign</span></div>
     <div class="stat-tile"><span class="num">884%</span><span class="lbl">reach vs. KPI</span></div>
@@ -562,17 +871,11 @@ body[data-mode="data"] .trail-dot{border-radius:2px;width:6px;height:6px;}
       <p class="sql-rows">(4 rows) &nbsp;-- proof that I have been optimizing for metrics all along</p>
     </div>
   </div>
-</section>
+    </div>
 
-<section id="projects">
-  <div class="wrap">
-    <span class="eyebrow w-only">chapter one: the portfolio</span>
-    <span class="eyebrow d-only">$ cat projects.txt</span>
-    <h2 class="w-only">Campaigns with claws</h2>
-    <h2 class="d-only">pipelines/ (under construction, loudly)</h2>
-    <p class="section-note w-only">Real campaigns for real shelves: pharma, wellness, and household names across the Philippines.</p>
-    <p class="section-note d-only">Training builds from AWS re/Start and FTW Foundation. Statuses are honest. The ambition is not.</p>
-
+    <div class="w-only" style="margin-top:34px;">
+      <h3 style="font-size:24px;margin-bottom:4px;">Four pieces, up close</h3>
+      <p class="section-note">Real campaigns for real shelves. The rest is on Behance.</p>
     <div class="proj-grid w-only">
       <article class="proj">
         <svg class="paw-swipe" viewBox="0 0 96 96" aria-hidden="true"><g fill="#FF69B4" stroke="#43223B" stroke-width="3"><ellipse cx="30" cy="22" rx="9" ry="12"/><ellipse cx="56" cy="16" rx="9" ry="12"/><ellipse cx="78" cy="26" rx="8" ry="11"/><path d="M28 52 C 30 36 72 30 82 46 C 92 62 78 78 58 74 C 40 70 26 68 28 52 Z"/></g></svg>
@@ -600,48 +903,244 @@ body[data-mode="data"] .trail-dot{border-radius:2px;width:6px;height:6px;}
       </article>
     </div>
     <p class="see-all w-only">Plus Ricola, Orocan, Unilab work and more: <a href="https://www.behance.net/czekinah" target="_blank" rel="noopener">all 12 projects live on Behance</a>.</p>
+    </div>
+    <a class="next-stop" href="#stop-3">next stop <span class="arr">&darr;</span> the SaaS years</a>
+  </div>
+</section>
 
-    <div class="proj-grid d-only">
+<section id="stop-3" class="stop wrap">
+  <div class="stop-head"><span class="stop-num">Stop 03</span><span class="stop-year">2024 to 2026 &middot; Straker, via The Back Room</span></div>
+  <span class="eyebrow w-only">the SaaS years</span>
+  <span class="eyebrow d-only">$ cat stop_03/saas.md</span>
+  <h2 class="w-only">Words for an AI company</h2>
+  <h2 class="d-only">saas/ (b2b, ai, 120 languages)</h2>
+  <div class="stop-grid">
+    <div>
+      <p class="lead">My first B2B job and my first AI one. Straker checks AI translations for big companies in more than 120 languages, and it is an IBM Gold Partner. I owned the words: the website, the emails, the launches for Verify, SwiftBridge AI and AI Dubbing, and the campaign around IBM Think 2026. When the site had to be rebuilt in a week, I wrote it in a week. I also built the team's custom GPTs and Gemini Gems, so first drafts showed up faster and already sounded like us. The editing still needed a person. That person was me.</p>
+      <ul class="facts">
+        <li><b>Web and SEO</b>: pages built in Webflow with the designers in Figma, on-page SEO done by hand</li>
+        <li><b>Email</b>: newsletters, promo sequences and nurture flows, with A/B tests on copy and layout</li>
+        <li><b>Launches</b>: product copy, Storylane demos and Synthesia videos for three AI products</li>
+        <li><b>Events</b>: LinkedIn campaign and collateral for IBM Think 2026</li>
+      </ul>
+    </div>
+    <div class="side-card">
+      <h3><span class="w-only">Loot from this stop</span><span class="d-only">// picked up here</span></h3>
+      <ul>
+        <li><span class="k">skill</span>Explaining a technical product to a buyer in one screen</li>
+        <li><span class="k">skill</span>Building AI tools for a team, then editing what they make</li>
+        <li><span class="k">habit</span>Shipping on time when the deadline is not negotiable</li>
+      </ul>
+    </div>
+  </div>
+  <a class="next-stop" href="#stop-4">next stop <span class="arr">&darr;</span> right now</a>
+</section>
+
+<section id="stop-4" class="stop">
+  <div class="wrap">
+    <div class="stop-head"><span class="stop-num">Stop 04</span><span class="stop-year">July 2026 to now &middot; Amare Group Inc.</span></div>
+    <span class="eyebrow w-only">you are here</span>
+    <span class="eyebrow d-only">$ cat stop_04/now.md</span>
+    <h2 class="w-only">Direct response, in Taglish</h2>
+    <h2 class="d-only">now/ (direct_response, quality_gate)</h2>
+    <div class="stop-grid">
+      <div>
+        <p class="lead">Today I am the Direct Response Copywriter and Quality Lead at Amare Group Inc., the e-commerce company behind Zenith and Luxi. I write the ads: hooks, video scripts, landing pages, emails, influencer briefs, mostly in Taglish, sometimes in Bisaya. And I run the quality gate. Every script, page and brief on the team passes my desk before it ships, and when I change something I write down why, tied to the data. Each week I read hook rate, hold rate, CTR and CPA, and the next round of copy changes because of what they say.</p>
+        <ul class="facts">
+          <li><b>Write</b>: ad scripts and hook stacks for UGC, influencer, customer interview and street interview formats, plus the social copy that runs with them</li>
+          <li><b>Convert</b>: landing pages for cold traffic, email flows and campaigns in Klaviyo, offer and page tests</li>
+          <li><b>Gate</b>: review all team copy before launch, weekly creative reviews, the team's quality standards doc</li>
+          <li><b>Read</b>: hook rate, hold rate, CTR, CPA and contribution margin, turned into the next test</li>
+        </ul>
+        <div class="brand-row">
+          <a class="brand" href="https://tryzenith.ph/" target="_blank" rel="noopener"><b>Zenith</b><small>skincare and hair care for Filipino men</small><span class="url">tryzenith.ph</span></a>
+          <a class="brand" href="https://tryluxi.ph/" target="_blank" rel="noopener"><b>Luxi</b><small>skincare for Filipinas 35 and up</small><span class="url">tryluxi.ph</span></a>
+        </div>
+      </div>
+      <div class="side-card">
+        <h3><span class="w-only">The kit</span><span class="d-only">// tools.txt</span></h3>
+        <ul>
+          <li><span class="k">ads</span>Meta and Google ads copy, video scripts, TXT and native ads, advertorials</li>
+          <li><span class="k">email</span>Klaviyo campaigns, flows and sign-up forms</li>
+          <li><span class="k">pages</span>Elementor landing pages, PDP copy, quiz funnels</li>
+          <li><span class="k">ops</span>monday.com boards, Google Drive briefs, Claude and ChatGPT projects for research and first drafts</li>
+        </ul>
+      </div>
+    </div>
+    <a class="next-stop" href="#stop-5">next stop <span class="arr">&darr;</span> the plot twist</a>
+  </div>
+</section>
+
+<section id="stop-5" class="stop wrap">
+  <div class="stop-head"><span class="stop-num">Stop 05</span><span class="stop-year">2026 &middot; FTW Foundation, AWS re/Start, DataCamp</span></div>
+  <span class="eyebrow w-only">the plot twist</span>
+  <span class="eyebrow d-only">$ git log careers/czekinah</span>
+  <h2 class="w-only">From paragraphs to pipelines</h2>
+  <h2 class="d-only">schema migration in progress</h2>
+  <div class="stop-grid">
+    <div>
+      <p class="lead">Every campaign I ever wrote was secretly a system. Audiences, angles, versions, results. I kept asking where the numbers lived, followed them down the funnel into the databases, and liked it there. So in 2026 I started two scholarships at once. FTW Foundation Batch 12, with Accenture, on Saturdays: SQL, data modeling, Databricks, dbt. AWS re/Start Batch 29, through Edukasyon.ph, on Fridays: cloud, Linux, networking. In September I passed the DataCamp Associate Data Engineer exam after 99 courses. Next up is the Databricks Data Engineer Associate exam on October 17, 2026. Same curiosity. Stricter syntax.</p>
+      <div class="d-only">
+        <div class="gitlog"><span class="cm">$ git log --oneline careers/czekinah</span>
+<span class="hash">c3rt1fy</span> <span class="ref">(HEAD -&gt; data-engineering)</span> <span class="msg">feat: DataCamp Associate Data Engineer, certified</span>
+<span class="hash">5h1pped</span> <span class="msg">ship: road-to-purr-fection, the batch's Databricks reviewer</span>
+<span class="hash">f00dcat</span> <span class="msg">feat: enroll in FTW Foundation B12 + AWS re/Start B29</span>
+<span class="hash">d1r3ct</span> <span class="msg">feat: join Amare Group as DR copywriter &amp; quality lead</span>
+<span class="hash">c0ffee7</span> <span class="msg">refactor: campaigns/ -&gt; pipelines/ (breaking change, worth it)</span>
+<span class="hash">b1gp1v0</span> <span class="msg">fix: stop calling it a career change, call it a schema migration</span>
+<span class="hash">7yrs4go</span> <span class="msg">init: seven years of agency + B2B SaaS copywriting</span></div>
+      </div>
+    </div>
+    <div class="side-card">
+      <h3><span class="w-only">Scoreboard</span><span class="d-only">status --now</span></h3>
+      <ul>
+        <li><span class="k">certified</span>DataCamp Associate Data Engineer, September 2026</li>
+        <li><span class="k">ftw foundation</span>Batch 12, data engineering track, exam day October 17</li>
+        <li><span class="k">aws re/start</span>Batch 29 (PHMAN29), 43 labs, 72 knowledge checks at 100%</li>
+        <li><span class="k">datacamp</span>99 courses, 7 career tracks, 340k XP, ranked 2nd in class on XP</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:38px;">
+    <span class="eyebrow w-only">what I have built so far</span>
+    <span class="eyebrow d-only">$ ls pipelines/ --sort=recent</span>
+    <p class="section-note"><span class="w-only">Training builds, with honest statuses.</span><span class="d-only">// statuses are honest. the ambition is not.</span></p>
+    <div class="proj-grid">
+      <article class="proj">
+        <h3>road_to_purr_fection/</h3>
+        <p>A reviewer for the Databricks Data Engineer Associate exam, built for my FTW batch: 91 original practice questions, a timed mock, flashcards, a study calendar and a wall for notes. Runs in the browser, saves to your device.</p>
+        <div class="meta"><span class="chip status">[SHIPPED]</span><span class="chip">JavaScript</span><span class="chip">Databricks</span><a class="card-link" href="https://czekinah.github.io/databricks-de-associate-reviewer/" target="_blank" rel="noopener">Open the reviewer</a></div>
+        <div class="pipe-overlay d-only"><svg viewBox="0 0 320 44"><path class="pipe-flow" d="M58 22 H 128 M 192 22 H 262"/><rect class="pipe-node" x="10" y="8" width="52" height="28" rx="6"/><rect class="pipe-node" x="132" y="8" width="60" height="28" rx="6"/><rect class="pipe-node" x="258" y="8" width="52" height="28" rx="6"/><text class="pipe-txt" x="20" y="26">study</text><text class="pipe-txt" x="146" y="26">mock</text><text class="pipe-txt" x="270" y="26">pass</text></svg></div>
+      </article>
+      <article class="proj">
+        <h3>instacart_pipeline/</h3>
+        <p>Group project at FTW: Instacart orders taken from raw files to bronze, silver and gold tables on Databricks, with a dashboard on top. Presented to the class and defended every design choice.</p>
+        <div class="meta"><span class="chip status">[IN REVIEW]</span><span class="chip">Databricks</span><span class="chip">Spark SQL</span><span class="chip">medallion</span></div>
+        <div class="pipe-overlay d-only"><svg viewBox="0 0 320 44"><path class="pipe-flow" d="M58 22 H 128 M 192 22 H 262"/><rect class="pipe-node" x="10" y="8" width="52" height="28" rx="6"/><rect class="pipe-node" x="132" y="8" width="60" height="28" rx="6"/><rect class="pipe-node" x="258" y="8" width="52" height="28" rx="6"/><text class="pipe-txt" x="16" y="26">bronze</text><text class="pipe-txt" x="144" y="26">silver</text><text class="pipe-txt" x="270" y="26">gold</text></svg></div>
+      </article>
+      <article class="proj">
+        <h3>chinook_dimensional_model/</h3>
+        <p>The Chinook music store, remodeled as facts and dimensions so the questions a business asks are one join away. Star schema, grain decisions, the works.</p>
+        <div class="meta"><span class="chip status">[PRESENTED]</span><span class="chip">SQL</span><span class="chip">data modeling</span></div>
+        <div class="pipe-overlay d-only"><svg viewBox="0 0 320 44"><path class="pipe-flow" d="M58 22 H 128 M 192 22 H 262"/><rect class="pipe-node" x="10" y="8" width="52" height="28" rx="6"/><rect class="pipe-node" x="132" y="8" width="60" height="28" rx="6"/><rect class="pipe-node" x="258" y="8" width="52" height="28" rx="6"/><text class="pipe-txt" x="20" y="26">facts</text><text class="pipe-txt" x="140" y="26">dims</text><text class="pipe-txt" x="270" y="26">marts</text></svg></div>
+      </article>
+      <article class="proj">
+        <h3>nyc_mobility_dbt/</h3>
+        <p>NYC mobility and traffic advisories, transformed with dbt for the first time. The green run in the terminal was a very good feeling.</p>
+        <div class="meta"><span class="chip status">[IN PROGRESS]</span><span class="chip">dbt</span><span class="chip">SQL</span><span class="chip">Databricks</span></div>
+        <div class="pipe-overlay d-only"><svg viewBox="0 0 320 44"><path class="pipe-flow" d="M58 22 H 128 M 192 22 H 262"/><rect class="pipe-node" x="10" y="8" width="52" height="28" rx="6"/><rect class="pipe-node" x="132" y="8" width="60" height="28" rx="6"/><rect class="pipe-node" x="258" y="8" width="52" height="28" rx="6"/><text class="pipe-txt" x="14" y="26">source</text><text class="pipe-txt" x="140" y="26">model</text><text class="pipe-txt" x="272" y="26">test</text></svg></div>
+      </article>
       <article class="proj">
         <h3>aws_restart_labs/</h3>
-        <p>Cloud, Linux, networking and SQL from AWS re/Start. Seven labs written up with the commands, the transcripts and the failures. 43 labs completed, 72 knowledge checks at 100%.</p>
-        <div class="meta"><span class="chip status">[SHIPPED]</span><span class="chip">AWS</span><span class="chip">SQL</span><span class="chip">Linux</span><span class="chip">Bash</span><a class="card-link" href="https://github.com/czekinah/aws-restart-labs" target="_blank" rel="noopener">Read the labs</a></div>
-        <div class="pipe-overlay"><svg viewBox="0 0 320 44"><path class="pipe-flow" d="M58 22 H 128 M 192 22 H 262"/><rect class="pipe-node" x="10" y="8" width="52" height="28" rx="6"/><rect class="pipe-node" x="132" y="8" width="60" height="28" rx="6"/><rect class="pipe-node" x="258" y="8" width="52" height="28" rx="6"/><text class="pipe-txt" x="22" y="26">build</text><text class="pipe-txt" x="140" y="26">break</text><text class="pipe-txt" x="268" y="26">write</text></svg></div>
-      </article>
-      <article class="proj">
-        <h3>herding_the_data/</h3>
-        <p>An end-to-end ETL pipeline for cat shelter insights. Raw CSVs in, clean warehouse tables out, adoption trends surfaced.</p>
-        <div class="meta"><span class="chip status">[BUILDING]</span><span class="chip">Python</span><span class="chip">pandas</span><span class="chip">SQL</span></div>
-        <div class="pipe-overlay"><svg viewBox="0 0 320 44"><path class="pipe-flow" d="M58 22 H 128 M 192 22 H 262"/><rect class="pipe-node" x="10" y="8" width="52" height="28" rx="6"/><rect class="pipe-node" x="132" y="8" width="60" height="28" rx="6"/><rect class="pipe-node" x="258" y="8" width="52" height="28" rx="6"/><text class="pipe-txt" x="18" y="26">extract</text><text class="pipe-txt" x="136" y="26">transform</text><text class="pipe-txt" x="272" y="26">load</text></svg></div>
-      </article>
-      <article class="proj">
-        <h3>campaign_metrics_warehouse/</h3>
-        <p>Seven years of ad campaign results remodeled as a star schema. My own portfolio numbers as the first dataset.</p>
-        <div class="meta"><span class="chip status">[DESIGNING]</span><span class="chip">SQL</span><span class="chip">data modeling</span></div>
-        <div class="pipe-overlay"><svg viewBox="0 0 320 44"><path class="pipe-flow" d="M58 22 H 128 M 192 22 H 262"/><rect class="pipe-node" x="10" y="8" width="52" height="28" rx="6"/><rect class="pipe-node" x="132" y="8" width="60" height="28" rx="6"/><rect class="pipe-node" x="258" y="8" width="52" height="28" rx="6"/><text class="pipe-txt" x="20" y="26">facts</text><text class="pipe-txt" x="140" y="26">dims</text><text class="pipe-txt" x="270" y="26">marts</text></svg></div>
-      </article>
-      <article class="proj">
-        <h3>sql_scratching_post/</h3>
-        <p>A running log of query practice from DataCamp and drills. One scratch a day keeps the rust away.</p>
-        <div class="meta"><span class="chip status">[DAILY]</span><span class="chip">SQL</span><span class="chip">DataCamp</span></div>
-        <div class="pipe-overlay"><svg viewBox="0 0 320 44"><path class="pipe-flow" d="M58 22 H 128 M 192 22 H 262"/><rect class="pipe-node" x="10" y="8" width="52" height="28" rx="6"/><rect class="pipe-node" x="132" y="8" width="60" height="28" rx="6"/><rect class="pipe-node" x="258" y="8" width="52" height="28" rx="6"/><text class="pipe-txt" x="18" y="26">select</text><text class="pipe-txt" x="140" y="26">join</text><text class="pipe-txt" x="264" y="26">window</text></svg></div>
+        <p>Cloud, Linux, networking and SQL from AWS re/Start. Seven labs written up with the commands, the transcripts and the failures.</p>
+        <div class="meta"><span class="chip status">[SHIPPED]</span><span class="chip">AWS</span><span class="chip">Linux</span><span class="chip">Bash</span><a class="card-link" href="https://github.com/czekinah/aws-restart-labs" target="_blank" rel="noopener">Read the labs</a></div>
+        <div class="pipe-overlay d-only"><svg viewBox="0 0 320 44"><path class="pipe-flow" d="M58 22 H 128 M 192 22 H 262"/><rect class="pipe-node" x="10" y="8" width="52" height="28" rx="6"/><rect class="pipe-node" x="132" y="8" width="60" height="28" rx="6"/><rect class="pipe-node" x="258" y="8" width="52" height="28" rx="6"/><text class="pipe-txt" x="22" y="26">build</text><text class="pipe-txt" x="140" y="26">break</text><text class="pipe-txt" x="268" y="26">write</text></svg></div>
       </article>
       <article class="proj">
         <h3>ftw_de_journal/</h3>
         <p>One session, one entry, one commit. What actually happened on FTW Saturdays, written the same week it happened. The LinkedIn version is the polished one.</p>
         <div class="meta"><span class="chip status">[WEEKLY]</span><span class="chip">Git</span><span class="chip">Databricks</span><a class="card-link" href="https://github.com/czekinah/ftw-de-journal" target="_blank" rel="noopener">Read the entries</a></div>
-        <div class="pipe-overlay"><svg viewBox="0 0 320 44"><path class="pipe-flow" d="M58 22 H 128 M 192 22 H 262"/><rect class="pipe-node" x="10" y="8" width="52" height="28" rx="6"/><rect class="pipe-node" x="132" y="8" width="60" height="28" rx="6"/><rect class="pipe-node" x="258" y="8" width="52" height="28" rx="6"/><text class="pipe-txt" x="22" y="26">init</text><text class="pipe-txt" x="136" y="26">commit</text><text class="pipe-txt" x="270" y="26">push</text></svg></div>
+        <div class="pipe-overlay d-only"><svg viewBox="0 0 320 44"><path class="pipe-flow" d="M58 22 H 128 M 192 22 H 262"/><rect class="pipe-node" x="10" y="8" width="52" height="28" rx="6"/><rect class="pipe-node" x="132" y="8" width="60" height="28" rx="6"/><rect class="pipe-node" x="258" y="8" width="52" height="28" rx="6"/><text class="pipe-txt" x="22" y="26">init</text><text class="pipe-txt" x="136" y="26">commit</text><text class="pipe-txt" x="270" y="26">push</text></svg></div>
       </article>
     </div>
+    <p class="bench"><b>on the bench:</b> campaign_metrics_warehouse (seven years of my own campaign results as a star schema, designing) &middot; sql_scratching_post (one query drill a day)</p>
+  </div>
+  <a class="next-stop" href="#stop-6">next stop <span class="arr">&darr;</span> side quests</a>
+</section>
+
+<section id="stop-6" class="stop">
+  <div class="wrap">
+    <div class="stop-head"><span class="stop-num">Stop 06</span><span class="stop-year">2014 to now &middot; off the main road</span></div>
+    <span class="eyebrow w-only">side quests</span>
+    <span class="eyebrow d-only">$ ls side_quests/</span>
+    <h2 class="w-only">The parts that are not on the resume</h2>
+    <h2 class="d-only">side_quests/ (optional, but I did them anyway)</h2>
+    <p class="section-note"><span class="w-only">Open a quest to read it. Open all of them and something small happens.</span><span class="d-only">// open each quest to mark it done. clear the log for a reward.</span></p>
+
+    <div class="quest-log" id="questLog">
+      <details class="quest" data-quest="rotaract">
+        <summary>
+          <span class="q-ico" aria-hidden="true">&#127942;</span>
+          <span class="q-text"><span class="q-title">Ran a Rotaract club to a regional award</span><span class="q-sub">Rotaract Club of Muntinlupa Central &middot; 2018 to 2022</span></span>
+          <span class="q-state">new</span>
+        </summary>
+        <div class="q-body">
+          <p>I joined as Public Image Director and ran every channel the club had, then became Club Secretary, then President for 2021 to 2022. That year we won the Rotary International Asia-Pacific Regional Award in the Rotaract Outstanding Project Awards, for Ngiting Puting Ngipin, a comic and video series that teaches kids aged 6 to 9 to take care of their teeth. We were the only Rotaract club in the region to get it.</p>
+          <ul>
+            <li>5 Star Club with Gold Distinction, the highest district award, plus the Highest Increase in Membership Award</li>
+            <li>Featured in the Philippine Rotary Magazine twice (April 2019 and November 2020), and wrote the Books and Toys for Mangyan Children story that ran in the Inquirer</li>
+            <li>Took part in the Speechcraft Program with Pilipinas MDIO and Toastmasters International</li>
+          </ul>
+          <div class="q-links">
+            <a href="https://rotaract.rotaryphilippines.com/2022/12/ngiting-puting-ngipin-an-award-winning-oral-health-campaign-of-rac-muntinlupa-central/" target="_blank" rel="noopener">The Rotaract Philippines feature</a>
+            <a href="https://spc.rotary.org/project?guid=b44f868e-b082-4710-b35e-e68f1f903606" target="_blank" rel="noopener">Books and Toys for Mangyan Children</a>
+          </div>
+        </div>
+      </details>
+
+      <details class="quest" data-quest="podcast">
+        <summary>
+          <span class="q-ico" aria-hidden="true">&#127908;</span>
+          <span class="q-text"><span class="q-title">Got on a podcast to talk about service</span><span class="q-sub">Girls Who podcast &middot; "Girls Who Advocate" &middot; September 2022</span></span>
+          <span class="q-state">new</span>
+        </summary>
+        <div class="q-body">
+          <p>Me-Ann, the host, had three guests on: one on marine conservation, one on keeping gaming spaces non-toxic, and me on fellowship through service, the Rotaract years and why I kept showing up. It is a good listen if you want to hear how I actually talk.</p>
+          <div class="podcast-box" id="podBox">
+            <button class="btn" type="button" id="podBtn">Play the episode on Spotify</button>
+            <span class="treats" style="display:block;margin-top:8px;">Loads Spotify's player when you click. Nothing loads before that.</span>
+          </div>
+        </div>
+      </details>
+
+      <details class="quest" data-quest="gaming">
+        <summary>
+          <span class="q-ico" aria-hidden="true">&#127918;</span>
+          <span class="q-text"><span class="q-title">Play with two gaming communities</span><span class="q-sub">Gamer Girls Philippines &middot; Girls Who Games</span></span>
+          <span class="q-state">new</span>
+        </summary>
+        <div class="q-body">
+          <p>Two different groups, same idea: Filipinas who game, looking out for each other. I am a member of both, and I show up. It shows in my reviewer site too. It has XP, ranks and badges, because I know how well a small reward works on a tired brain at 11 PM.</p>
+          <div class="q-links">
+            <a href="https://czekinah.github.io/games/" target="_blank" rel="noopener">Speaking of which: the Purr-cade</a>
+          </div>
+        </div>
+      </details>
+
+      <details class="quest" data-quest="redcross">
+        <summary>
+          <span class="q-ico" aria-hidden="true">&#9981;</span>
+          <span class="q-text"><span class="q-title">Started with the Red Cross</span><span class="q-sub">Philippine Red Cross, Manila Chapter &middot; 2014</span></span>
+          <span class="q-state">new</span>
+        </summary>
+        <div class="q-body">
+          <p>My first volunteer badge. Disaster response and relief during typhoon season with the Manila Chapter in Intramuros. Everything after this started here.</p>
+        </div>
+      </details>
+    </div>
+    <p class="quest-progress">quest log: <b id="questCount">0</b> of 4 opened</p>
+
+    <div style="margin-top:34px;">
+      <h3 style="font-size:22px;margin-bottom:4px;"><span class="w-only">Outside of work you can find me</span><span class="d-only">// outside_of_work.log</span></h3>
+      <ul class="offwork">
+        <li><span class="k">playing</span>with Gamer Girls Philippines and Girls Who Games</li>
+        <li><span class="k">writing</span>one FTW journal post a week, on LinkedIn and on GitHub</li>
+        <li><span class="k">reading</span>Databricks docs, and the exam guide, again</li>
+        <li><span class="k">quoting</span>"Because people don't have wings, we look for ways to fly." (Haikyuu, my favorite line)</li>
+        <li><span class="k">home with</span>a trophy cat who inspects every commit</li>
+      </ul>
+    </div>
+    <a class="next-stop" href="#inventory">next stop <span class="arr">&darr;</span> the inventory</a>
   </div>
 </section>
-<section id="skills" class="wrap">
-  <span class="eyebrow w-only">the toolbox</span>
+
+<section id="inventory" class="wrap">
+  <span class="eyebrow w-only">the inventory</span>
   <span class="eyebrow d-only">$ ls skills/ --sort=passion</span>
   <h2 class="w-only">Wordcraft &amp; data stacks</h2>
   <h2 class="d-only">skills/ (hybrid build)</h2>
   <p class="section-note"><span class="w-only">Flip the switch up top and watch half of these wake up.</span><span class="d-only">// the dimmed tiles are not gone. they are napping.</span></p>
-
   <div class="bento">
     <div class="tile bridge">
       <span class="t-name w-only">"I built structures for stories for seven years. Rows and columns are just stricter paragraphs."</span>
@@ -693,12 +1192,11 @@ body[data-mode="data"] .trail-dot{border-radius:2px;width:6px;height:6px;}
 
 <section id="catalytics">
   <div class="wrap">
-    <span class="eyebrow w-only">live from my desk</span>
+    <span class="eyebrow w-only">rest stop</span>
     <span class="eyebrow d-only">$ tail -f cat_metrics.log</span>
     <h2 class="w-only">Cat-alytics</h2>
     <h2 class="d-only">cat_alytics --live</h2>
     <p class="section-note"><span class="w-only">A very serious dashboard of very serious numbers. Feed the cat to see the metrics respond.</span><span class="d-only">// interactive demo: user events update state, state re-renders the bars. that is the whole job, basically.</span></p>
-
     <div class="cata-card">
       <div class="cata-cat">
         <svg id="cata-kitty" viewBox="0 0 150 130" role="img" aria-label="A round cat next to its food bowl">
@@ -723,8 +1221,17 @@ body[data-mode="data"] .trail-dot{border-radius:2px;width:6px;height:6px;}
         <div class="bar-row"><span class="b-lbl">words_written</span><div class="bar-track"><div class="bar-fill" data-w="81"></div></div><span class="b-val">2,400</span></div>
         <div class="bar-row"><span class="b-lbl">queries_run</span><div class="bar-track"><div class="bar-fill" data-w="38"></div></div><span class="b-val">17</span></div>
         <div class="bar-row"><span class="b-lbl">purr_level</span><div class="bar-track"><div class="bar-fill" id="purrBar" data-w="58"></div></div><span class="b-val" id="purrVal">58%</span></div>
+        <div class="bar-row"><span class="b-lbl">stops_visited</span><div class="bar-track"><div class="bar-fill" id="stopsBar" data-w="0"></div></div><span class="b-val" id="stopsVal">0/8</span></div>
         <div class="bar-row"><span class="b-lbl">cats_petted</span><div class="bar-track"><div class="bar-fill" data-w="100"></div></div><span class="b-val">&#8734;</span></div>
       </div>
+    </div>
+    <div class="ach-row" id="achRow" aria-label="Achievements">
+      <span class="ach" data-ach="stamp"><span class="ico">&#127915;</span>stamped the ticket</span>
+      <span class="ach" data-ach="flip"><span class="ico">&#128049;</span>met both cats</span>
+      <span class="ach" data-ach="stops"><span class="ico">&#128694;</span>walked every stop</span>
+      <span class="ach" data-ach="quests"><span class="ico">&#128220;</span>cleared the quest log</span>
+      <span class="ach" data-ach="feed"><span class="ico">&#127859;</span>fed the cat 5 times</span>
+      <span class="ach" data-ach="term"><span class="ico">&#128187;</span>talked to the terminal</span>
     </div>
   </div>
 </section>
@@ -746,58 +1253,119 @@ body[data-mode="data"] .trail-dot{border-radius:2px;width:6px;height:6px;}
   </div>
 </section>
 
-<section id="about" class="wrap">
-  <span class="eyebrow w-only">the plot twist</span>
-  <span class="eyebrow d-only">$ git log careers/czekinah</span>
-  <h2 class="w-only">From paragraphs to pipelines</h2>
-  <h2 class="d-only">schema migration in progress</h2>
-
-  <div class="about-grid">
-    <div>
-      <p class="storybook w-only"><span class="cap">O</span>nce upon a deadline, a copywriter spent seven years making brands sound human: pharma, wellness, household names, B2B SaaS. Along the way she noticed that every great campaign is secretly a system. Audiences, angles, versions, results. She started asking where all the numbers lived, followed them down the funnel into the databases, and liked it there. Now she is training as a data engineer while keeping the writing sharp. Same curiosity. Stricter syntax.</p>
-      <div class="d-only">
-        <p class="section-note">// the career switch, rendered as a commit history</p>
-        <div class="gitlog"><span class="cm">$ git log --oneline careers/czekinah</span>
-<span class="hash">5h1pped</span> <span class="ref">(HEAD -&gt; data-engineering)</span> <span class="msg">ship: aws-restart-labs, 43 labs and 7 write-ups</span>
-<span class="hash">f00dcat</span> <span class="msg">feat: enroll in AWS re/Start + FTW Foundation</span>
-<span class="hash">ac1dbee</span> <span class="msg">learn: 99 DataCamp courses, 7 career tracks, 340k XP</span>
-<span class="hash">c0ffee7</span> <span class="msg">refactor: campaigns/ -&gt; pipelines/ (breaking change, worth it)</span>
-<span class="hash">b1gp1v0</span> <span class="msg">fix: stop calling it a career change, call it a schema migration</span>
-<span class="hash">7yrs4go</span> <span class="msg">init: seven years of agency + B2B SaaS copywriting</span></div>
-      </div>
-    </div>
-    <div>
-      <h3><span class="w-only">Currently</span><span class="d-only">status --now</span></h3>
-      <ul class="paw-list">
-        <li>AWS re/Start scholar, cohort PHMAN29: 43 labs completed, 72 knowledge checks at 100%</li>
-        <li>FTW Foundation Batch 12, data engineering track</li>
-        <li>DataCamp: 99 courses, 7 career tracks, 4 DataLab projects, 340,324 XP</li>
-        <li>Still writing: campaigns, funnels, and the occasional zine-worthy essay</li>
-        <li>Based in the Philippines, open to freelance and full-time</li>
-      </ul>
-    </div>
+<section id="play" class="wrap">
+  <span class="eyebrow w-only">play</span>
+  <span class="eyebrow d-only">$ ./purr-cade</span>
+  <h2 class="w-only">The Purr-cade</h2>
+  <h2 class="d-only">purr-cade/ (two tiny games)</h2>
+  <p class="section-note">Two tiny cat games I built: Tabby Dash and the SQL Scratching Post. No install, no accounts. Scores stay in your browser.</p>
+  <div class="hero-ctas" style="margin-top:8px;">
+    <a class="btn" href="https://czekinah.github.io/games/"><span class="w-only">Insert coin</span><span class="d-only">./play</span></a>
+    <a class="btn ghost" href="https://czekinah.github.io/databricks-de-associate-reviewer/"><span class="w-only">Or study with the cat</span><span class="d-only">./road_to_purr_fection</span></a>
   </div>
 </section>
 </main>
 
-<footer>
+<footer id="end">
   <div class="wrap">
+    <div class="end-station">
+      <svg viewBox="0 0 520 150" role="img" aria-label="A small station platform with a bench, a sign that says END, and a cat waiting">
+        <rect x="40" y="118" width="440" height="10" rx="3" fill="var(--line)"/>
+        <rect x="60" y="128" width="400" height="6" fill="var(--bg-alt)"/>
+        <rect x="130" y="40" width="4" height="80" fill="var(--ink-soft)"/><rect x="386" y="40" width="4" height="80" fill="var(--ink-soft)"/>
+        <path d="M110 44 Q 260 8 410 44 L 410 52 Q 260 18 110 52 Z" fill="var(--accent)" stroke="var(--ink)" stroke-width="3"/>
+        <rect x="200" y="86" width="120" height="8" rx="3" fill="var(--ink-soft)"/>
+        <rect x="206" y="94" width="6" height="24" fill="var(--ink-soft)"/><rect x="308" y="94" width="6" height="24" fill="var(--ink-soft)"/>
+        <rect x="225" y="48" width="70" height="26" rx="6" fill="var(--pop)" stroke="var(--ink)" stroke-width="3"/>
+        <text x="260" y="66" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="14" font-weight="800" fill="#4A3402">END</text>
+        <g transform="translate(360 84)">
+          <ellipse cx="18" cy="24" rx="16" ry="11" fill="var(--bg-alt)" stroke="var(--ink)" stroke-width="3"/>
+          <circle cx="18" cy="10" r="11" fill="var(--bg-alt)" stroke="var(--ink)" stroke-width="3"/>
+          <path d="M9 4 L7 -6 L15 0 Z M27 4 L29 -6 L21 0 Z" fill="var(--bg-alt)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+          <circle cx="14" cy="9" r="1.6" fill="var(--ink)"/><circle cx="22" cy="9" r="1.6" fill="var(--ink)"/>
+          <path d="M16 13 l2 2 2-2" stroke="var(--ink)" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+          <path class="tailwag" d="M34 26 C 44 24 46 14 40 8" fill="none" stroke="var(--accent)" stroke-width="6" stroke-linecap="round"/>
+        </g>
+      </svg>
+      <span class="end-sign">end of the line, for now</span>
+    </div>
     <div class="foot-grid">
       <div>
         <h2 class="w-only" style="font-size:clamp(28px,3.6vw,40px);">Let's make something with claws.</h2>
         <h2 class="d-only" style="font-size:clamp(22px,3vw,32px);">./say_hi --channel=any</h2>
-        <p class="section-note"><span class="w-only">For campaigns, content, or a chat about the writer-to-data plot twist.</span><span class="d-only">// recruiter-friendly. cat-approved. responds faster than a cold pipeline.</span></p>
+        <p class="section-note"><span class="w-only">For campaigns, content, data work, or a chat about the writer-to-data plot twist. Open to freelance, collaborations and interesting problems.</span><span class="d-only">// recruiter-friendly. cat-approved. responds faster than a cold pipeline.</span></p>
       </div>
       <div class="foot-links">
         <a class="btn" href="https://www.linkedin.com/in/czekinah/" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="btn ghost" href="https://www.behance.net/czekinah" target="_blank" rel="noopener">Behance</a>
         <a class="btn ghost" href="https://github.com/czekinah" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn ghost" href="https://www.behance.net/czekinah" target="_blank" rel="noopener">Behance</a>
+        <a class="btn ghost" href="mailto:tolentino.czekinah@gmail.com">Email</a>
       </div>
     </div>
-    <p class="foot-note"><span class="w-only">Czekinah Tolentino. One life, two render modes. Powered by strawberry milkshake.</span><span class="d-only">Czekinah Tolentino // one life, two render modes // uptime: 7 years and counting</span></p>
+    <p class="made-with"><span class="w-only">Made with strawberry milkshake, one trophy cat, and too many open tabs.</span><span class="d-only">// built by hand. one html file. no frameworks, no tracking, no cookies.</span></p>
+    <p class="foot-note"><span class="w-only">&copy; 2026 Czekinah Tolentino. One life, two render modes.</span><span class="d-only">&copy; 2026 czekinah tolentino // one life, two render modes // uptime: 7 years and counting</span></p>
     <div class="paw-steps" aria-hidden="true">&#128062; &#128062; &#128062;</div>
   </div>
 </footer>
+
+<div id="rmodal" role="dialog" aria-modal="true" aria-labelledby="tldrTitle" aria-hidden="true">
+  <div class="tldr">
+    <button class="close" type="button" id="rmClose" aria-label="Close recruiter mode">&times;</button>
+    <span class="eyebrow w-only">recruiter mode</span>
+    <span class="eyebrow d-only">$ cat tldr.txt</span>
+    <h2 id="tldrTitle">Czekinah Tolentino</h2>
+    <p class="sub">Direct Response Copywriter &amp; Quality Lead, Amare Group Inc. &middot; Data engineer in training &middot; Metro Manila, remote</p>
+    <p style="max-width:none;font-size:15px;">Seven years of copy for pharma, FMCG, a bank and a B2B AI company. Now writing direct response ads and running the copy quality gate for two e-commerce brands, while training as a data engineer through FTW Foundation and AWS re/Start.</p>
+    <div class="nums">
+      <div><b>291%</b><span>peak sales growth, Pharex (Xiklab)</span></div>
+      <div><b>884%</b><span>reach vs KPI, Anti-Ngalay</span></div>
+      <div><b>#1</b><span>Google ranking, RiteMed</span></div>
+      <div><b>7+ yrs</b><span>Ogilvy, Xiklab, Straker</span></div>
+    </div>
+    <div class="grid2">
+      <div>
+        <h3>Now</h3>
+        <ul>
+          <li>Amare Group Inc. (Zenith, Luxi), since Jul 2026: ad scripts, hooks, landing pages, Klaviyo email, in Taglish. Reviews all team copy before launch.</li>
+          <li>FTW Foundation Batch 12, data engineering, with Accenture</li>
+          <li>AWS re/Start Batch 29: 43 labs, 72 checks at 100%</li>
+        </ul>
+        <h3>Credentials</h3>
+        <ul>
+          <li>DataCamp Associate Data Engineer (Sep 2026), 99 courses</li>
+          <li>Databricks Data Engineer Associate: exam Oct 17, 2026</li>
+          <li>Young Lions 2022, Young Spikes 2024 (Ogilvy)</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Stack</h3>
+        <ul>
+          <li>Data: SQL, Python, pandas, Databricks, Spark SQL, dbt, AWS, Git</li>
+          <li>Writing: TVC and radio scripts, DR video ads, landing pages, email, SEO</li>
+          <li>Tools: Klaviyo, Webflow, Elementor, Figma, HubSpot, monday.com, ChatGPT, Gemini, Claude</li>
+        </ul>
+        <h3>Side quests</h3>
+        <ul>
+          <li>Rotaract Club of Muntinlupa Central: President 2021 to 2022, Rotary International Asia-Pacific Regional Award</li>
+          <li>Girls Who podcast guest (2022), Gamer Girls Philippines, Girls Who Games</li>
+        </ul>
+      </div>
+    </div>
+    <h3>Reach me</h3>
+    <dl class="kv">
+      <dt>email</dt><dd><a href="mailto:tolentino.czekinah@gmail.com">tolentino.czekinah@gmail.com</a></dd>
+      <dt>linkedin</dt><dd><a href="https://www.linkedin.com/in/czekinah/" target="_blank" rel="noopener">linkedin.com/in/czekinah</a></dd>
+      <dt>github</dt><dd><a href="https://github.com/czekinah" target="_blank" rel="noopener">github.com/czekinah</a></dd>
+      <dt>behance</dt><dd><a href="https://www.behance.net/czekinah" target="_blank" rel="noopener">behance.net/czekinah</a></dd>
+    </dl>
+    <div class="actions">
+      <button class="btn" type="button" id="rmPrint">Save as PDF</button>
+      <button class="btn ghost" type="button" id="rmBack">Back to the trail</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"><span class="t-ico" id="toastIco">&#127881;</span><div><div class="t-title">achievement unlocked</div><div class="t-msg" id="toastMsg"></div></div></div>
 
 <div id="shelf" aria-label="Sticker shelf. Drag a sticker anywhere on the page.">
   <span class="shelf-lbl">stickers</span>
@@ -822,6 +1390,7 @@ body[data-mode="data"] .trail-dot{border-radius:2px;width:6px;height:6px;}
     <path d="M15 1 v5 M15 24 v5 M1 15 h5 M24 15 h5" stroke="#2BE3DF" stroke-width="1.6"/>
   </svg>
 </div>
+
 <script>
 (function(){
 "use strict";
@@ -946,7 +1515,7 @@ var wDrops=["🐾","✨","🍓","⭐"];
 var dDrops=["⚡","💾","🐾","✨"];
 document.addEventListener("click",function(e){
   if(RM){return;}
-  if(e.target.closest("a,button,input,textarea,select,.sticker,.placed,#shelf,#toggle-dock,#term-sec")){return;}
+  if(e.target.closest("a,button,input,textarea,select,.sticker,.placed,#shelf,#toggle-dock,#term-sec,#rmodal,#stops-nav,#ticket,summary")){return;}
   var sel=window.getSelection&&window.getSelection().toString();
   if(sel){return;}
   if(document.querySelectorAll(".drop-glyph").length>24){return;}
@@ -1067,6 +1636,195 @@ if(termIn){
   });
   termBody.addEventListener("click",function(){termIn.focus();});
 }
+
+/* ---------- v2: achievements ---------- */
+var ACH_KEY="purr_ach_v2";
+var ach={};
+try{ach=JSON.parse(localStorage.getItem(ACH_KEY)||"{}")||{};}catch(err){ach={};}
+var toast=qs("#toast"),toastMsg=qs("#toastMsg"),toastIco=qs("#toastIco"),toastTimer=null;
+function paintAch(){
+  qsa(".ach").forEach(function(a){a.classList.toggle("on",!!ach[a.dataset.ach]);});
+}
+function unlock(key,msg,ico){
+  if(ach[key]){return;}
+  ach[key]=true;
+  try{localStorage.setItem(ACH_KEY,JSON.stringify(ach));}catch(err){}
+  paintAch();
+  if(toast){
+    toastMsg.textContent=msg;
+    toastIco.textContent=ico||"🎉";
+    toast.classList.add("show");
+    if(toastTimer){clearTimeout(toastTimer);}
+    toastTimer=setTimeout(function(){toast.classList.remove("show");},3200);
+  }
+}
+paintAch();
+
+/* ---------- v2: the ticket ---------- */
+var ticket=qs("#ticket"),tkDate=qs("#tk-date"),tkTime=qs("#tk-time");
+function tickClock(){
+  var now=new Date();
+  try{
+    tkDate.textContent=new Intl.DateTimeFormat("en-GB",{day:"2-digit",month:"short",timeZone:"Asia/Manila"}).format(now);
+    tkTime.textContent=new Intl.DateTimeFormat("en-GB",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false,timeZone:"Asia/Manila"}).format(now)+" GMT+8";
+  }catch(err){
+    tkDate.textContent=now.getDate()+" "+["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][now.getMonth()];
+    tkTime.textContent=now.toTimeString().slice(0,8);
+  }
+}
+if(ticket){
+  tickClock();setInterval(tickClock,1000);
+  var stampIt=function(){
+    if(ticket.classList.contains("stamped")){
+      ticket.classList.remove("stamped");void ticket.offsetWidth;
+    }
+    ticket.classList.add("stamped");
+    ticket.setAttribute("aria-label","Day pass, stamped. Click to stamp it again.");
+    unlock("stamp","You stamped the day pass. Valid for one trail, round trip.","🎫");
+  };
+  ticket.addEventListener("click",stampIt);
+  ticket.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();stampIt();}});
+}
+
+/* ---------- v2: met both cats ---------- */
+var modesSeen={};
+modesSeen[body.dataset.mode]=true;
+function noteMode(){
+  modesSeen[body.dataset.mode]=true;
+  if(modesSeen.writer&&modesSeen.data){unlock("flip","You met both cats. Same person, two render modes.","🐱");}
+}
+toggleBtn.addEventListener("click",function(){setTimeout(noteMode,700);});
+qsa(".flipper").forEach(function(f){f.addEventListener("click",function(){setTimeout(noteMode,700);});});
+
+/* ---------- v2: stops nav, stations on the trail, stops visited ---------- */
+var STOP_IDS=["top","stop-1","stop-2","stop-3","stop-4","stop-5","stop-6","end"];
+var navLinks={};
+qsa("#stops-nav a").forEach(function(a){navLinks[a.dataset.stop]=a;});
+var seenStops={};
+var stopsBar=qs("#stopsBar"),stopsVal=qs("#stopsVal");
+function paintStops(){
+  var n=Object.keys(seenStops).length;
+  if(stopsBar){stopsBar.dataset.w=String(Math.round(n/STOP_IDS.length*100));stopsBar.style.width=stopsBar.dataset.w+"%";}
+  if(stopsVal){stopsVal.textContent=n+"/"+STOP_IDS.length;}
+  if(n>=STOP_IDS.length){unlock("stops","You walked every stop. The cat got its bowl.","🐾");}
+}
+function setActive(id){
+  Object.keys(navLinks).forEach(function(k){navLinks[k].classList.toggle("active",k===id);});
+  if(!seenStops[id]){seenStops[id]=true;if(navLinks[id]){navLinks[id].classList.add("seen");}paintStops();}
+}
+if("IntersectionObserver" in window){
+  var stopObs=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){if(en.isIntersecting){setActive(en.target.id);}});
+  },{rootMargin:"-40% 0px -45% 0px",threshold:0});
+  STOP_IDS.forEach(function(id){var el=document.getElementById(id);if(el){stopObs.observe(el);}});
+}else{setActive("top");}
+/* station ticks along the trail bar */
+var trackEl=qs("#trail-track");
+function placeStations(){
+  qsa(".station").forEach(function(s){s.remove();});
+  var doc=document.documentElement;
+  var max=(doc.scrollHeight-window.innerHeight)||1;
+  var track=window.innerWidth-48;
+  STOP_IDS.forEach(function(id){
+    var el=document.getElementById(id);if(!el||id==="top"){return;}
+    var p=Math.min(1,Math.max(0,(el.getBoundingClientRect().top+window.scrollY-60)/max));
+    var s=document.createElement("i");
+    s.className="station";s.dataset.for=id;
+    s.style.left=(11+p*track)+"px";
+    trackEl.appendChild(s);
+  });
+}
+function paintStations(){
+  var doc=document.documentElement;
+  var max=(doc.scrollHeight-window.innerHeight)||1;
+  var p=(window.scrollY||doc.scrollTop)/max;
+  if(p>=0.97){setActive("end");}
+  var track=window.innerWidth-48;
+  qsa(".station").forEach(function(s){
+    var sp=(parseFloat(s.style.left)-11)/track;
+    s.classList.toggle("passed",p>=sp-0.002);
+  });
+}
+placeStations();
+window.addEventListener("resize",placeStations);
+window.addEventListener("load",placeStations);
+window.addEventListener("scroll",function(){requestAnimationFrame(paintStations);},{passive:true});
+
+/* ---------- v2: quest log ---------- */
+var quests=qsa(".quest"),questCount=qs("#questCount"),questsDone={};
+quests.forEach(function(q){
+  q.addEventListener("toggle",function(){
+    if(q.open){
+      q.classList.add("done");
+      var st=q.querySelector(".q-state");if(st){st.textContent="done";}
+      questsDone[q.dataset.quest]=true;
+      var n=Object.keys(questsDone).length;
+      if(questCount){questCount.textContent=String(n);}
+      if(n>=quests.length){
+        unlock("quests","Quest log cleared. Rotaract, a podcast, two guilds and the Red Cross.","📜");
+        if(!RM){for(var i=0;i<10;i++){(function(k){setTimeout(function(){
+          var s=document.createElement("span");s.className="drop-glyph";
+          s.textContent=["🎉","⭐","🐾","✨"][k%4];
+          s.style.left=(Math.random()*window.innerWidth)+"px";s.style.top="-20px";
+          document.body.appendChild(s);setTimeout(function(){s.remove();},1700);
+        },k*90);})(i);}}
+      }
+    }
+  });
+});
+var podBtn=qs("#podBtn"),podBox=qs("#podBox");
+if(podBtn){
+  podBtn.addEventListener("click",function(){
+    var f=document.createElement("iframe");
+    f.src="https://open.spotify.com/embed/episode/2RA4C87xCl6GwClgAfGgWi?utm_source=generator";
+    f.setAttribute("allow","autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture");
+    f.setAttribute("loading","lazy");
+    f.title="Girls Who podcast, episode 005, Girls Who Advocate";
+    podBox.innerHTML="";podBox.appendChild(f);
+  });
+}
+
+/* ---------- v2: feed the cat 5 times, talk to the terminal ---------- */
+if(feedBtn){feedBtn.addEventListener("click",function(){if(treats>=5){unlock("feed","Five treats. The cat now considers you staff.","🍣");}});}
+if(termIn){termIn.addEventListener("keydown",function(e){if(e.key==="Enter"&&termIn.value.trim()){unlock("term","You talked to the terminal. It talked back.","💻");}},true);}
+
+/* ---------- v2: terminal knows the new trail ---------- */
+CMDS["help"]=function(){tprint("available commands:\n  whoami   stops   ls projects/   quests   skills\n  contact   tldr   meow   sudo make coffee   clear","t-hint");};
+CMDS["whoami"]=function(){tprint("czekinah tolentino\ndirect response copywriter & quality lead @ amare group (zenith, luxi)\ncopywriter for 7+ yrs (ogilvy, xiklab, straker)\ndata engineer in training: ftw foundation b12 + aws re/start b29\ndatacamp associate data engineer, certified sep 2026. metro manila.");};
+CMDS["stops"]=function(){tprint("01  2017       panahon tv, the weather newsroom\n02  2018-2024  xiklab digital, then ogilvy\n03  2024-2026  straker, b2b ai, 120+ languages\n04  2026-now   amare group, direct response + quality gate\n05  2026-now   ftw foundation + aws re/start + datacamp\n06  side quests: rotaract, a podcast, two gaming guilds, red cross");};
+CMDS["ls projects/"]=function(){tprint("[SHIPPED]      road_to_purr_fection      databricks de associate reviewer, 91 questions\n[IN REVIEW]    instacart_pipeline        bronze -> silver -> gold on databricks\n[PRESENTED]    chinook_dimensional_model star schema, defended in class\n[IN PROGRESS]  nyc_mobility_dbt          first dbt run, green\n[SHIPPED]      aws_restart_labs          43 labs, 7 write-ups\n[WEEKLY]       ftw_de_journal            one session, one entry, one commit");};
+CMDS["cat projects.txt"]=CMDS["ls projects/"];
+CMDS["quests"]=function(){tprint("rotaract   public image director -> secretary -> president (2018-2022)\n           rotary international asia-pacific regional award, 2021-22\npodcast    girls who, ep. 005 'girls who advocate' (sep 2022)\nguilds     gamer girls philippines, girls who games\nred cross  manila chapter, typhoon season 2014");};
+CMDS["skills"]=function(){tprint("writing: direct response, tvc + radio scripts, landing pages, email, seo, taglish\ndata:    sql, python, pandas, databricks, spark sql, dbt, aws, git");};
+CMDS["contact"]=function(){tprint("email     -> tolentino.czekinah@gmail.com\nlinkedin  -> linkedin.com/in/czekinah\ngithub    -> github.com/czekinah\nbehance   -> behance.net/czekinah");};
+CMDS["tldr"]=function(){tprint("opening recruiter mode...","t-hint");openRecruiter();};
+CMDS["resume"]=CMDS["tldr"];
+
+/* ---------- v2: recruiter mode ---------- */
+var rmodal=qs("#rmodal"),rBtn=qs("#recruiterBtn"),rClose=qs("#rmClose"),rBack=qs("#rmBack"),rPrint=qs("#rmPrint"),lastFocus=null;
+function openRecruiter(){
+  if(!rmodal){return;}
+  lastFocus=document.activeElement;
+  rmodal.classList.add("open");rmodal.setAttribute("aria-hidden","false");
+  document.body.style.overflow="hidden";
+  setTimeout(function(){rClose.focus();},50);
+}
+function closeRecruiter(){
+  if(!rmodal){return;}
+  rmodal.classList.remove("open");rmodal.setAttribute("aria-hidden","true");
+  document.body.style.overflow="";
+  if(lastFocus&&lastFocus.focus){lastFocus.focus();}
+}
+if(rBtn){rBtn.addEventListener("click",openRecruiter);}
+if(rClose){rClose.addEventListener("click",closeRecruiter);}
+if(rBack){rBack.addEventListener("click",closeRecruiter);}
+if(rPrint){rPrint.addEventListener("click",function(){window.print();});}
+if(rmodal){
+  rmodal.addEventListener("click",function(e){if(e.target===rmodal){closeRecruiter();}});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&rmodal.classList.contains("open")){closeRecruiter();}});
+  if(/[?&#]recruiter/.test(location.href)){openRecruiter();}
+}
+
 })();
 </script>
 
